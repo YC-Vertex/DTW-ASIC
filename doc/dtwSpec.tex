@@ -1,0 +1,310 @@
+\documentclass[UTF8]{ctexart}
+
+% ========================= 引入宏 ========================= %
+\usepackage{cite}
+\usepackage[a4paper]{geometry}	% 设置页边距
+\usepackage{fancyhdr}   % 设置页眉页脚
+\usepackage{setspace}	% 设置行间距
+\usepackage{hyperref}   % 让生成的文章目录有链接，点击时会自动跳转到该章节
+\usepackage{cite}       % 引用
+\usepackage{amsmath}    % 数学公式以及公式换行对齐
+\usepackage{bm}         % 数学公式加粗
+\usepackage{tabularx}   % 表格
+\usepackage{booktabs}   % 表格横线
+\usepackage{caption}    % 表格标题
+\usepackage{makecell}   % 表格换行
+\usepackage{multirow}   % 表格行合并
+\usepackage{graphicx}   % 图片
+\usepackage{subfigure}  % 并排图片
+\usepackage{listings}   % 代码块
+\usepackage{xcolor}     % 代码块着色
+
+% ========================= 设置全局环境 ========================= %
+% [geometry] 设置页边距
+\geometry{top=72pt, bottom=72pt, left=72pt, right=72pt, headsep=16pt, headheight=16pt, foot=16pt}
+% 设置行间距为 1.5 倍行距
+\onehalfspacing
+% 设置页眉页脚
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+
+% ========================= 自定义命令 ========================= %
+% 此行使文献引用以上标形式显示
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+\newcommand{\rows}[2]{\begin{tabular}{#1}#2\end{tabular}}
+
+% 代码块设置
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{mybg}{rgb}{0.96,0.96,0.96}
+\lstset{
+    backgroundcolor=\color{mybg},      % choose the background color
+    basicstyle=\footnotesize\ttfamily,  % size of fonts used for the code
+    columns=fullflexible,
+    tabsize=4,
+    breaklines=true,               % automatic line breaking only at whitespace
+    captionpos=b,                  % sets the caption-position to bottom
+    commentstyle=\color{mygreen},  % comment style
+    escapeinside={\%*}{*)},        % if you want to add LaTeX within your code
+    keywordstyle=\color{blue},     % keyword style
+    stringstyle=\color{mymauve}\ttfamily,  % string literal style
+    % frame=shadowbox,
+    rulesepcolor=\color{red!20!green!20!blue!20},
+    % identifierstyle=\color{red},
+    language=c++,
+    xleftmargin=6em, xrightmargin=6em
+}
+
+% ========================= 标题设置 ========================= %
+\title{\huge{\heiti DTW协处理器\ 模块接口定义}}
+\author{
+\small{\kaishu 清华大学\ 集成电路学院\ 微81}
+}
+\date{}
+
+% ========================= 正文区域 ========================= %
+\begin{document}
+
+\maketitle
+
+\section{正向计算单元 DTW\_DC（Distance Calculator）}
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{clcl}
+        \toprule
+        类型 & 名称 & 位宽 & 说明 \\
+        \midrule
+        input & clk && 时钟端口 \\[5pt]
+        input & nrst && 复位端口，低有效 \\[5pt]
+        input & ena && 同步使能，高有效 \\[5pt]
+        \\
+        input & T & 30 & T序列（来自SRAM） \\[5pt]
+        input & i\_tindex & 5 & T序列索引（来自SRAM） \\[5pt]
+        input & i\_tsrc & 6 * 2 & 见ProcElem \\[5pt]
+        \\
+        input & R & 30 & R序列（来自顶层输入） \\[5pt]
+        input & i\_rindex & 5 & R序列索引（来自顶层输入） \\[5pt]
+        input & i\_rsrc & 6 * 2 & 见ProcElem \\[5pt]
+        \\
+        input & i\_sel0 & 6 * 3 & 控制信号，从缓存区选择数据D0进入计算 \\[5pt]
+        input & i\_sel1 & 6 * 3 & 控制信号，从缓存区选择数据D1进入计算 \\[5pt]
+        input & i\_sel2 & 6 * 3 & 控制信号，从缓存区选择数据D2进入计算 \\[5pt]
+        \\
+        output & D & 6 * 16 & 距离数据 \\[5pt]
+        output & o\_tindex & 6 * 5 & T序列索引 \\[5pt]
+        output & o\_rindex & 6 * 5 & R序列索引 \\[5pt]
+        output & o\_path & 6 * 2 & 前一个匹配位置，其取值含义见ScoreUnit \\[5pt]
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\newpage
+\subsection{脉动阵列 SystArr}
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{clcl}
+        \toprule
+        类型 & 名称 & 位宽 & 说明 \\
+        \midrule
+        input & clk && 时钟端口 \\[5pt]
+        input & nrst && 复位端口，低有效 \\[5pt]
+        input & ena && 同步使能，高有效 \\[5pt]
+        \\
+        input & T & 30 & T序列（来自SRAM） \\[5pt]
+        input & i\_tindex & 5 & T序列索引（来自SRAM） \\[5pt]
+        input & i\_tsrc & 6 * 2 & 见ProcElem \\[5pt]
+        \\
+        input & R & 30 & R序列（来自顶层输入） \\[5pt]
+        input & i\_rindex & 5 & R序列索引（来自顶层输入） \\[5pt]
+        input & i\_rsrc & 6 * 2 & 见ProcElem \\[5pt]
+        \\
+        input & D0 & 6 * 16 & \multirow{3}*{见ProcElem} \\[5pt]
+        input & D1 & 6 * 16 & \\[5pt]
+        input & D2 & 6 * 16 & \\[5pt]
+        \\
+        output & D & 6 * 16 & 距离数据 \\[5pt]
+        output & o\_tindex & 6 * 5 & T序列索引 \\[5pt]
+        output & o\_rindex & 6 * 5 & R序列索引 \\[5pt]
+        output & o\_path & 6 * 2 & 前一个匹配位置，其取值含义见ScoreUnit \\[5pt]
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\newpage
+\subsubsection{运算单元 ProcElem}
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}[t]{clcl}
+        \toprule
+        类型 & 名称 & 位宽 & 说明 \\
+        \midrule
+        input & clk && 时钟端口 \\[5pt]
+        input & nrst && 复位端口，低有效 \\[5pt]
+        input & ena && 同步使能，高有效 \\[5pt]
+        \\
+        input & D0 & 16 & (i-1, j-1)的距离数据 \\[5pt]
+        input & D1 & 16 & (i-1, j)的距离数据 \\[5pt]
+        input & D2 & 16 & (i, j-1)的距离数据 \\[5pt]
+        \\
+        input & T\_prev & 30 & T序列（来自相邻PE） \\[5pt]
+        input & T\_global & 30 & T序列（来自SRAM） \\[5pt]
+        input & i\_tindex\_prev & 5 & T序列索引（来自相邻PE） \\[5pt]
+        input & i\_tindex\_global & 5 & T序列索引（来自SRAM） \\[5pt]
+        input & i\_tsrc & 2 & \makecell[l]{T序列来源\\2'd0代表内部\\2'd1代表端口T\_prev\\2'd2代表端口T\_global} \\[5pt]
+        \\
+        input & R\_prev & 30 & R序列（来自相邻PE） \\[5pt]
+        input & R\_global & 30 & R序列（来自顶层输入） \\[5pt]
+        input & i\_rindex\_prev & 5 & R序列索引（来自相邻PE） \\[5pt]
+        input & i\_rindex\_global & 5 & R序列索引（来自顶层输入） \\[5pt]
+        input & i\_rsrc & 2 & \makecell[l]{R序列来源\\2'd0代表内部\\2'd1代表端口R\_prev\\2'd2代表端口R\_global} \\[5pt]
+        \\
+        output & T & 30 & T序列 \\[5pt]
+        output & o\_tindex & 5 & T序列索引 \\[5pt]
+        output & R & 30 & R序列 \\[5pt]
+        output & o\_rindex & 5 & R序列索引 \\[5pt]
+        output & D & 16 & 距离数据 \\[5pt]
+        output & o\_path & 2 & 前一个匹配位置，其取值含义见ScoreUnit \\[5pt]
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\newpage
+\subsection{缓存区 Cache}
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{clcl}
+        \toprule
+        类型 & 名称 & 位宽 & 说明 \\
+        \midrule
+        input & clk && 时钟端口 \\[5pt]
+        input & nrst && 复位端口，低有效 \\[5pt]
+        input & ena && 同步使能，高有效 \\[5pt]
+        input & D & 96 & 当前周期的距离数据 \\[5pt]
+        output & D\_1 & 96 & 一周期前的距离数据 \\[5pt]
+        output & D\_2 & 96 & 两周期前的距离数据 \\[5pt]
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\newpage
+\section{反向回溯单元 DTW\_BT（Backtracker）}
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{clcl}
+        \toprule
+        类型 & 名称 & 位宽 & 说明 \\
+        \midrule
+        \textbf{通用端口} &&& \\[5pt]
+        input & clk && 时钟端口 \\[5pt]
+        input & nrst && 复位端口，低有效 \\[5pt]
+        \\
+        \textbf{存储功能} &&& \\[5pt]
+        input & i\_tindex & 6 * 5 & \multirow{4}*{见ScoreArr} \\[5pt]
+        input & i\_rindex & 6 * 5 & \\[5pt]
+        input & D & 6 * 16 & \\[5pt]
+        input & i\_path & 6 * 2 & \\[5pt]
+        \\
+        \textbf{回溯功能} &&& \\[5pt]
+        input & i\_bt\_start && \makecell[l]{回溯起始信号\\连接至最后一个单元的i\_outena端口\\[5pt]} \\[5pt]
+        output & o\_data & 32 & 连接至SRAM数据输入端 \\[5pt]
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\newpage
+\subsection{分数阵列 ScoreArr}
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{clcl}
+        \toprule
+        类型 & 名称 & 位宽 & 说明 \\
+        \midrule
+        \textbf{通用端口} &&& \\[5pt]
+        input & clk && 时钟端口 \\[5pt]
+        input & nrst && 复位端口，低有效 \\[5pt]
+        \\
+        \textbf{存储功能} &&& \\[5pt]
+        input & i\_tindex\_1 & 5 & \multirow{24}*{\makecell[l]{对于所有x号PE对应的存储单元\\若i\_tindex\_x、i\_rindex\_x与单元内部索引匹配\\则单元将D\_x和i\_path\_x数据写入}} \\[5pt]
+        input & i\_tindex\_2 & 5 & \\[5pt]
+        input & i\_tindex\_3 & 5 & \\[5pt]
+        input & i\_tindex\_4 & 5 & \\[5pt]
+        input & i\_tindex\_5 & 5 & \\[5pt]
+        input & i\_tindex\_6 & 5 & \\[5pt]
+        input & i\_rindex\_1 & 5 & \\[5pt]
+        input & i\_rindex\_2 & 5 & \\[5pt]
+        input & i\_rindex\_3 & 5 & \\[5pt]
+        input & i\_rindex\_4 & 5 & \\[5pt]
+        input & i\_rindex\_5 & 5 & \\[5pt]
+        input & i\_rindex\_6 & 5 & \\[5pt]
+        input & D\_1 & 16 & \\[5pt]
+        input & D\_2 & 16 & \\[5pt]
+        input & D\_3 & 16 & \\[5pt]
+        input & D\_4 & 16 & \\[5pt]
+        input & D\_5 & 16 & \\[5pt]
+        input & D\_6 & 16 & \\[5pt]
+        input & i\_path\_1 & 2 & \\[5pt]
+        input & i\_path\_2 & 2 & \\[5pt]
+        input & i\_path\_3 & 2 & \\[5pt]
+        input & i\_path\_4 & 2 & \\[5pt]
+        input & i\_path\_5 & 2 & \\[5pt]
+        input & i\_path\_6 & 2 & \\[5pt]
+        \\
+        \textbf{回溯功能} &&& \\[5pt]
+        input & i\_bt\_start && \makecell[l]{回溯起始信号\\连接至最后一个单元的i\_outena端口\\[5pt]} \\[5pt]
+        output & o\_data & 32 & 连接至SRAM数据输入端 \\[5pt]
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\newpage
+\subsubsection{分数单元 ScoreUnit}
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{clcl}
+        \toprule
+        类型 & 名称 & 位宽 & 说明 \\
+        \midrule
+        \textbf{通用端口} &&& \\[5pt]
+        input & clk && 时钟端口 \\[5pt]
+        input & nrst && 复位端口，低有效 \\[5pt]
+        \\
+        \textbf{存储功能} &&& \\[5pt]
+        input & i\_tindex & 5 & \multirow{2}*{\makecell[l]{当i\_tindex==TINDEX且i\_rindex==RINDEX时\\将数据写入内部寄存器\\[5pt]}} \\[5pt]
+        input & i\_rindex & 5 & \\[5pt]
+        input & D & 16 & 距离数据 \\[5pt]
+        input & i\_path & 2 & 前一个匹配位置，其取值含义见参数 \\[5pt]
+        \\
+        \textbf{回溯功能} &&& \\[5pt]
+        input & i\_outena && 高有效，输出本地数据至SRAM \\[5pt]
+        inout & o\_data & 32 & 连接至SRAM数据输入端 \\[5pt]
+        output & o\_ena0 && 控制(i-1, j-1)的输出，连接至其i\_outena端 \\[5pt]
+        output & o\_ena1 && 控制(i-1, j)的输出，连接至其i\_outena端 \\[5pt]
+        output & o\_ena2 && 控制(i, j-1)的输出，连接至其i\_outena端 \\[5pt]
+        \\
+        \textbf{参数} &&& \\[5pt]
+        parameter & TINDEX && \multirow{2}*{当前模块在阵列中的位置}\\[5pt]
+        parameter & RINDEX && \\[5pt]
+        localparam & PATH0 && 2'b11，代表(i-1, j-1)号单元 \\[5pt]
+        localparam & PATH1 && 2'b10，代表(i-1, j)号单元 \\[5pt]
+        localparam & PATH2 && 2'b01，代表(i, j-1)号单元 \\[5pt]
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\newpage
+\section{控制单元 DTW\_CTRL（Controller）}
+
+\end{document}

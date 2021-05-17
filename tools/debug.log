@@ -1,0 +1,890 @@
+---- Source Sequence ----
+[[1023, 1023, 1023], [935, 935, 935], [702, 702, 702], [402, 402, 402], [141, 141, 141], [6, 6, 6], [46, 46, 46], [246, 246, 246], [537, 537, 537], [819, 819, 819], [996, 996, 996], [1006, 1006, 1006], [846, 846, 846], [571, 571, 571], [275, 275, 275], [61, 61, 61], [2, 2, 2], [118, 118, 118], [369, 369, 369], [670, 670, 670]]
+---- Query Sequence ----
+[[1023, 78, 1023], [692, 1023, 1023], [598, 279, 0], [0, 1023, 448], [0, 0, 903], [371, 1023, 49], [0, 1023, 0], [0, 0, 0], [22, 932, 903], [563, 497, 1023], [831, 1023, 1023], [0, 1023, 1023], [1023, 1023, 808], [1023, 68, 1023], [1023, 0, 1023], [0, 1023, 274], [0, 551, 1023], [0, 0, 734], [1023, 596, 360], [0, 0, 1023]]
+---- Dynamic Program ----
+[[  945.  1276.    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [ 1978.  1364.  3204.  4714.    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  2016.  2593.  3870.  5475.  6780.    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  3548.  2737.  3662.  4967.  5972.  7397.    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  3473.  4067.  4706.  5910.  7074.  7497.  9169.    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  4344.  4938.  4976.  6131.  6939.  6957.  8796. 10861.
+  13720.    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf  5769.  5887.  6281.  7200.  7077.  8724. 10669.
+  13408. 15408.    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf  6918.  6986.  7550.  7815.  8644.  9989.
+  12128. 13928. 16044.    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf  8358.  8058.  8546.  9161.  9091.  9196.
+  10462. 11971. 13214. 14655.    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf  9480.  9900. 11003. 10085.  9873.
+   9616. 10843. 11262. 12421. 13648.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf 11079. 11499. 12888. 11216. 10832.
+   9835. 10666. 10908. 11890. 12940.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf 13108. 14517. 12377. 11801.
+  10044. 10875. 10898. 11870. 12910. 14665.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf 15646. 13344. 12610.
+  10413. 11244. 11267. 12030. 13070. 14505.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf 14586. 13144.
+  11577. 11888. 12385. 12674. 13505. 14390. 15433.    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf 14402.
+  13629. 13348. 13917. 14088. 14445. 14529. 15689. 16442.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf 15333. 16019. 15848. 16073. 15681. 16042. 16484.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf 17956. 17892. 16976. 17253. 16778. 18457.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf 19820. 18155. 18432. 17630. 18403.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf 19360. 18733. 18520. 19795.]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf 19257. 20213.]]
+---- Traceback ----
+[[ 0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [ 1.  0.  0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  0.  2.  2.  2. inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  0.  0.  2.  2.  2. inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  0.  0.  2.  2.  2.  2. inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  0.  0.  0.  0.  2.  2.  2.  2. inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf  0.  0.  0.  0.  0.  0.  2.  2.  2. inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  0.  0.  0.  1.  0.  2.  2.  2.  2. inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  1.  0.  0.  0.  0.  0.  2.  2.  2.  2. inf inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  0.  0.  1.  0.  0.  2.  2.  2.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  0.  0.  1.  1.  1.  0.  2.  2.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf inf  0.  0.  1.  1.  1.  0.  0.  2.  2.  2. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf  0.  1.  1.  1.  0.  0.  0.  0.  0. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf  1.  1.  1.  0.  0.  0.  0.  0.  2. inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf  1.  1.  0.  0.  0.  0.  0.  0.  0.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf  1.  0.  0.  0.  0.  0.  0.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  0.  1.  0.  0.
+   0. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  1.  0.  1.
+   0. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  1.
+   0.  0.]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+   1.  0.]]
+---- Aignment ----
+[(0, 0, 945), (1, 1, 1364), (2, 2, 2593), (3, 3, 3662), (4, 4, 4706), (4, 5, 5910), (5, 6, 6939), (6, 7, 7077), (7, 8, 8644), (8, 9, 9196), (9, 10, 9616), (10, 11, 10666), (11, 12, 10898), (12, 13, 12030), (13, 14, 13505), (14, 15, 14529), (15, 16, 16042), (16, 17, 16778), (17, 17, 17630), (18, 18, 18520), (19, 19, 20213)]
+
+---- Source Sequence ----
+[[1023, 1023, 1023], [935, 935, 935], [702, 702, 702], [402, 402, 402], [141, 141, 141], [6, 6, 6], [46, 46, 46], [246, 246, 246], [537, 537, 537], [819, 819, 819], [996, 996, 996], [1006, 1006, 1006], [846, 846, 846], [571, 571, 571], [275, 275, 275], [61, 61, 61], [2, 2, 2], [118, 118, 118], [369, 369, 369], [670, 670, 670]]
+---- Query Sequence ----
+[[1023, 1023, 835], [999, 0, 1023], [0, 338, 0], [1023, 1023, 0], [607, 0, 750], [804, 0, 626], [604, 0, 364], [1023, 475, 123], [421, 1023, 1023], [1023, 1023, 1023], [0, 809, 1023], [1023, 1023, 688], [1023, 1023, 611], [0, 1023, 651], [0, 885, 0], [70, 532, 1023], [68, 286, 148], [0, 0, 1023], [1019, 512, 779], [0, 1023, 0]]
+---- Dynamic Program ----
+[[  188.  1235.    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [  464.  1275.  3702.  4813.    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  1784.  3043.  4387.  5232.  6112.    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  3404.  2652.  4296.  5251.  6260.  6754.    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  3131.  4557.  5512.  6540.  7087.  7988. 10032.    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  3475.  5171.  5908.  6936.  7502.  8690. 10437. 13083.
+  14909.    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf  5475.  6482.  7292.  7858.  8985. 11019. 13368.
+  14869. 17465.    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf  6586.  7666.  8014.  8987. 10714. 13045.
+  14631. 16627. 18546.    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf  7406.  7479.  8256.  8976. 10064. 11522.
+  12817. 13940. 14986. 16123.    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf  8433.  8968.  9500.  9782. 10394.
+  11427. 11966. 12582. 13773. 15477.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf  9991. 10453. 10389. 10129.  9863.
+  11073. 11435. 11874. 13242. 15345.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf 12041. 11820. 10748.  9914.
+  11083. 11425. 11854. 13232. 15365. 16772.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf 13091. 11527. 10445.
+  10974. 11486. 12014. 13072. 14803. 16070.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf 12581. 11801.
+  11706. 11995. 12430. 13117. 14528. 15520. 16731.    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf 14045.
+  13263. 13615. 13827. 13829. 14277. 15487. 15832. 17130.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf 15814. 16089. 15440. 14775. 15719. 15806. 16890.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf 17112. 15662. 16394. 16215. 16831. 19135.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf 16665. 17029. 16463. 17356. 18787.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf 17068. 17855. 18559. 19951.]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf 18471. 20164.]]
+---- Traceback ----
+[[ 0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [ 1.  0.  0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  0.  0.  2.  2.  2. inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  0.  2.  2.  0.  0. inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  0.  0.  0.  0.  0.  2. inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  0.  0.  0.  0.  0.  0.  0.  2. inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf  0.  0.  0.  0.  0.  0.  0.  0.  2. inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  0.  0.  0.  0.  0.  2.  2.  2.  2. inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  1.  0.  2.  0.  2.  2.  2.  2.  2.  2. inf inf inf inf
+  inf inf]
+ [inf inf inf inf inf  0.  0.  0.  0.  2.  2.  2.  2.  2.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  0.  0.  0.  0.  2.  2.  2.  2.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf inf  0.  1.  1.  1.  0.  0.  2.  2.  2.  0. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf  1.  1.  1.  0.  2.  0.  0.  2.  2. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf  1.  1.  0.  0.  0.  0.  0.  2.  2. inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf  1.  1.  0.  0.  0.  0.  2.  2.  2.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf  0.  0.  0.  0.  0.  0.  2.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  1.  0.  0.  0.
+   2. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  0.  1.  0.
+   0. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  0.
+   0.  2.]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+   0.  2.]]
+---- Aignment ----
+[(1, 0, 464), (2, 1, 1784), (3, 2, 2652), (4, 3, 4557), (5, 4, 5908), (6, 5, 7292), (7, 6, 8014), (8, 7, 8976), (9, 8, 9782), (10, 9, 9863), (10, 10, 11073), (11, 11, 11425), (12, 12, 12014), (13, 13, 13117), (14, 14, 14277), (15, 15, 15719), (16, 16, 16215), (17, 16, 16463), (18, 17, 17855), (19, 18, 18471), (19, 19, 20164)]
+
+---- Source Sequence ----
+[[1023, 1023, 1023], [935, 935, 935], [702, 702, 702], [402, 402, 402], [141, 141, 141], [6, 6, 6], [46, 46, 46], [246, 246, 246], [537, 537, 537], [819, 819, 819], [996, 996, 996], [1006, 1006, 1006], [846, 846, 846], [571, 571, 571], [275, 275, 275], [61, 61, 61], [2, 2, 2], [118, 118, 118], [369, 369, 369], [670, 670, 670]]
+---- Query Sequence ----
+[[0, 0, 1023], [1023, 0, 1023], [400, 1023, 1023], [0, 320, 1023], [1023, 0, 598], [189, 0, 0], [0, 0, 0], [0, 849, 0], [578, 695, 1023], [1023, 1023, 1023], [417, 1023, 1023], [0, 1023, 0], [1023, 1023, 1023], [0, 1023, 0], [0, 0, 179], [0, 1023, 461], [0, 891, 170], [373, 251, 1023], [0, 975, 1023], [590, 542, 0]]
+---- Dynamic Program ----
+[[ 2046.  3069.    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [ 4004.  3157.  3780.  5418.    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  4501.  4101.  5185.  6312.  8229.    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  6145.  5345.  5206.  6404.  7329.  8535.    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  7368.  6408.  6686.  6734.  7157.  8147. 10020.    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  9796.  7745.  8023.  6881.  6752.  7607.  9885. 12936.
+  15381.    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf  9042.  9320.  7116.  6890.  7647.  9765. 12696.
+  15021. 16090.    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf 10417.  7665.  7628.  7985.  9205. 11536.
+  13261. 14530. 16861.    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf 11501.  9087.  9239.  9014.  8670. 10128.
+  11220. 12780. 14238. 15798.    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf 11355. 11544. 10682.  9239.  9282.
+  10092. 11934. 12546. 14388. 16666.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf 14154. 14343. 12821.  9985.  9320.
+   9915. 11934. 12015. 14034. 16843.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf 17172. 14990. 10741.  9371.
+   9943. 11944. 11985. 14014. 16853. 18411.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf 16685. 11337.  9902.
+  10154. 11812. 12343. 13854. 16213. 17621.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf 11920. 11258.
+  10960. 11748. 13104. 13937. 15388. 16521. 17813.    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf 13502.
+  12598. 12258. 13992. 14402. 14583. 15792. 16788. 17658.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf 13342. 15144. 15076. 14642. 16006. 16792. 18252.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf 16101. 14823. 16124. 17065. 18433. 20248.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf 15120. 16189. 17067. 18358. 20238.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf 17279. 17843. 19472. 20235.]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf 19171. 20049.]]
+---- Traceback ----
+[[ 0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [ 1.  0.  0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  0.  0.  2.  2. inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  1.  0.  0.  0.  2. inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  1.  0.  0.  2.  2.  2. inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  1.  0.  0.  0.  2.  2.  2.  2. inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf  1.  0.  1.  1.  0.  0.  2.  2.  2. inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  0.  1.  1.  0.  0.  2.  2.  2.  2. inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  1.  1.  1.  0.  0.  2.  2.  2.  2.  2. inf inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  0.  1.  1.  0.  2.  2.  2.  2.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  0.  1.  1.  0.  0.  2.  0.  2.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf inf  0.  1.  1.  1.  0.  0.  0.  2.  2.  0. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf  1.  1.  1.  0.  0.  2.  0.  2.  2. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf  1.  1.  0.  0.  2.  0.  0.  2.  2. inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf  1.  1.  0.  0.  0.  0.  2.  2.  2.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf  1.  0.  0.  0.  0.  0.  0.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  1.  0.  0.  0.
+   0. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  0.  0.  0.
+   2. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  0.
+   2.  2.]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+   0.  2.]]
+---- Aignment ----
+[(0, 1, 3069), (1, 2, 3780), (2, 3, 5185), (3, 4, 6404), (4, 5, 6734), (5, 6, 6752), (6, 6, 6890), (7, 7, 7985), (8, 8, 8670), (9, 8, 9239), (10, 9, 9320), (11, 9, 9371), (12, 10, 10154), (13, 11, 11748), (13, 12, 13104), (14, 13, 14402), (15, 14, 14642), (16, 15, 16124), (17, 16, 17067), (18, 17, 17843), (19, 18, 19171), (19, 19, 20049)]
+
+---- Source Sequence ----
+[[1023, 1023, 1023], [935, 935, 935], [702, 702, 702], [402, 402, 402], [141, 141, 141], [6, 6, 6], [46, 46, 46], [246, 246, 246], [537, 537, 537], [819, 819, 819], [996, 996, 996], [1006, 1006, 1006], [846, 846, 846], [571, 571, 571], [275, 275, 275], [61, 61, 61], [2, 2, 2], [118, 118, 118], [369, 369, 369], [670, 670, 670]]
+---- Query Sequence ----
+[[0, 863, 994], [1023, 0, 1023], [0, 1023, 543], [0, 44, 0], [581, 959, 0], [566, 0, 1023], [0, 0, 0], [283, 0, 839], [629, 1021, 330], [783, 1023, 1023], [0, 356, 1023], [1023, 1023, 1023], [751, 0, 825], [0, 171, 1023], [0, 0, 0], [202, 0, 0], [667, 1023, 0], [0, 1023, 468], [1023, 0, 1023], [170, 1023, 1023]]
+---- Dynamic Program ----
+[[ 1212.  2235.    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [ 2278.  2323.  3650.  6411.    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  3622.  3505.  5567.  6647.  7806.    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  5266.  4669.  4667.  5805.  6992.  8198.    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  6094.  5046.  6066.  7253.  7415.  8396.  9953.    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  7654.  5096.  6580.  7649.  7271.  8387. 10349. 12764.
+  14137.    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf  5190.  6590.  8123.  7409.  8347. 10189. 12880.
+  14097. 17028.    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf  6484.  7827.  8147.  8285.  9527. 11618.
+  12751. 15082. 16412.    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf  7487.  7536.  9147.  9240.  9068. 10286.
+  11490. 12948. 13987. 15376.    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf  8763.  9993. 10522.  9949.  9512.
+  10998. 11610. 12503. 14174. 16631.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf 10216. 11751. 11859. 11007.  9779.
+  11175. 11079. 12491. 14339. 17162.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf 13234. 13647. 12075. 10036.
+  11452. 11130. 12521. 14349. 17357. 19978.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf 14650. 12983. 10453.
+  11549. 11661. 12092. 13790. 16328. 18664.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf 13732. 11569.
+  11691. 12905. 12666. 13515. 15228. 16739. 17858.    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf 13573.
+  12673. 13935. 13967. 13793. 14340. 14963. 16378. 17594.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf 15559. 15450. 14926. 13976. 14239. 15868. 17298.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf 16118. 13982. 14180. 15868. 17357. 19342.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf 14336. 14302. 15752. 17125. 19053.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf 15623. 16745. 18422. 19929.]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf 18121. 19327.]]
+---- Traceback ----
+[[ 0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [ 1.  0.  0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  0.  0.  2.  2.  2. inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  1.  0.  2.  2.  2. inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  1.  0.  0.  0.  2.  2. inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  1.  0.  0.  0.  2.  2.  0.  2. inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf  1.  0.  0.  1.  0.  2.  2.  0.  2. inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  0.  2.  1.  0.  2.  2.  2.  2.  2. inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  1.  0.  2.  0.  0.  2.  2.  2.  2.  2. inf inf inf inf
+  inf inf]
+ [inf inf inf inf inf  0.  0.  0.  1.  0.  2.  2.  2.  2.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  0.  0.  1.  1.  0.  0.  2.  2.  0. inf inf inf
+  inf inf]
+ [inf inf inf inf inf inf  0.  0.  1.  1.  0.  1.  0.  0.  0.  0. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf  0.  1.  1.  0.  1.  0.  2.  2.  2. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf  1.  1.  0.  0.  0.  0.  2.  2.  2. inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf  1.  0.  0.  1.  0.  0.  2.  2.  2.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf  0.  0.  1.  0.  2.  2.  2.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  1.  0.  2.  0.
+   0. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  0.  0.  2.
+   2. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  2.
+   2.  2.]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+   0.  2.]]
+---- Aignment ----
+[(0, 0, 1212), (1, 1, 2323), (2, 2, 3505), (3, 3, 4667), (3, 4, 5805), (4, 5, 7253), (5, 6, 7271), (6, 6, 7409), (7, 7, 8285), (8, 8, 9068), (9, 9, 9512), (9, 10, 10998), (10, 11, 11079), (11, 11, 11130), (12, 11, 11661), (13, 12, 12666), (14, 13, 13793), (15, 14, 13976), (16, 14, 13982), (17, 15, 14302), (18, 16, 15623), (18, 17, 16745), (19, 18, 18121), (19, 19, 19327)]
+
+---- Source Sequence ----
+[[1023, 1023, 1023], [935, 935, 935], [702, 702, 702], [402, 402, 402], [141, 141, 141], [6, 6, 6], [46, 46, 46], [246, 246, 246], [537, 537, 537], [819, 819, 819], [996, 996, 996], [1006, 1006, 1006], [846, 846, 846], [571, 571, 571], [275, 275, 275], [61, 61, 61], [2, 2, 2], [118, 118, 118], [369, 369, 369], [670, 670, 670]]
+---- Query Sequence ----
+[[0, 1023, 0], [0, 1023, 884], [1023, 0, 822], [0, 276, 20], [0, 347, 1023], [1023, 108, 1023], [298, 1023, 805], [0, 527, 773], [0, 815, 0], [0, 1023, 0], [1023, 1023, 1023], [433, 1023, 1023], [0, 454, 407], [391, 789, 874], [72, 0, 105], [0, 311, 189], [1023, 0, 25], [1023, 0, 1023], [1023, 566, 267], [467, 0, 156]]
+---- Dynamic Program ----
+[[ 2046.  3208.    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [ 4004.  3120.  4256.  6765.    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  4325.  4263.  6066.  7444.  8680.    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  5830.  5706.  5173.  6251.  7787.  8915.    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  7410.  5570.  6402.  8048.  9490. 10074. 11030.    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  9249.  5860.  6934.  8538. 10156. 10784. 10895. 11924.
+  14975.    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf  6162.  7184.  8950. 10526. 11410. 11645. 11964.
+  14855. 17196.    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf  7286.  8876. 10264. 11318. 12379. 12914.
+  14295. 16036. 16651.    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf  8499.  8687.  9680. 10463. 11815. 13375.
+  14372. 15371. 16121. 16856.    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf  9618.  9426. 10583. 12105. 13657.
+  13987. 14781. 16377. 16634. 18914.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf 10560. 10342. 11114. 12756. 14124.
+  13738. 14355. 16482. 17311. 19445.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf 11268. 12060. 13317. 14785.
+  13789. 14345. 16502. 17446. 20152. 21963.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf 12506. 13783. 15186.
+  14320. 14556. 16022. 16562. 18923. 20961.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf 13892. 15377.
+  15676. 15362. 15408. 16109. 17645. 18858. 20427.    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf 15190.
+  17434. 17016. 15948. 16637. 16757. 17154. 18427. 20198.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf 19312. 16748. 17819. 16753. 17192. 18213. 20198.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf 18796. 16928. 17251. 18238. 20257. 22048.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf 17105. 17310. 18367. 20166. 21668.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf 18677. 20044. 20997. 21677.]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf 20904. 22291.]]
+---- Traceback ----
+[[ 0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [ 1.  0.  2.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  0.  0.  2.  2. inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  1.  0.  2.  2.  2. inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  1.  0.  0.  0.  0.  2. inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  1.  0.  0.  0.  0.  0.  2.  2. inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf  1.  0.  0.  0.  0.  0.  0.  0.  2. inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  0.  0.  2.  2.  2.  0.  0.  2.  2. inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  1.  0.  2.  2.  2.  2.  0.  0.  2.  2. inf inf inf inf
+  inf inf]
+ [inf inf inf inf inf  0.  0.  2.  0.  0.  0.  2.  2.  0.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  1.  0.  0.  0.  0.  2.  2.  0.  0. inf inf inf
+  inf inf]
+ [inf inf inf inf inf inf  1.  0.  0.  0.  1.  0.  2.  0.  0.  0. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf  0.  0.  0.  1.  0.  0.  2.  2.  2. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf  0.  0.  1.  0.  0.  2.  2.  2.  2. inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf  0.  2.  1.  0.  0.  0.  2.  2.  2.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf  1.  1.  0.  0.  2.  0.  2.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  1.  0.  0.  0.
+   0. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  0.  0.  0.
+   2. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  0.
+   2.  2.]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+   0.  2.]]
+---- Aignment ----
+[(0, 0, 2046), (1, 1, 3120), (2, 2, 4263), (3, 3, 5173), (4, 3, 5570), (5, 3, 5860), (6, 3, 6162), (7, 4, 7286), (8, 5, 8687), (8, 6, 9680), (8, 7, 10463), (8, 8, 11815), (9, 9, 13657), (10, 10, 13738), (11, 10, 13789), (12, 11, 14556), (13, 12, 15408), (14, 13, 16637), (15, 14, 16753), (16, 15, 17251), (17, 16, 18367), (18, 17, 20044), (19, 18, 20904), (19, 19, 22291)]
+
+---- Source Sequence ----
+[[1023, 1023, 1023], [935, 935, 935], [702, 702, 702], [402, 402, 402], [141, 141, 141], [6, 6, 6], [46, 46, 46], [246, 246, 246], [537, 537, 537], [819, 819, 819], [996, 996, 996], [1006, 1006, 1006], [846, 846, 846], [571, 571, 571], [275, 275, 275], [61, 61, 61], [2, 2, 2], [118, 118, 118], [369, 369, 369], [670, 670, 670]]
+---- Query Sequence ----
+[[0, 0, 1023], [1023, 1023, 224], [1023, 72, 383], [1023, 1023, 921], [0, 731, 1023], [194, 0, 1023], [338, 1023, 823], [1023, 0, 497], [1023, 669, 0], [1023, 1023, 471], [827, 1023, 1023], [1023, 0, 1023], [0, 288, 638], [657, 0, 609], [0, 0, 695], [447, 949, 874], [756, 0, 1023], [0, 15, 175], [0, 581, 0], [1023, 0, 0]]
+---- Dynamic Program ----
+[[ 2046.  2845.    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [ 4004.  2933.  4348.  4538.    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  4053.  4203.  5064.  5590.  7121.    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  5473.  5023.  5964.  6416.  6821.  7927.    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  6216.  7567.  7577.  7492.  8582.  9306. 10857.    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  7676.  9165.  9315.  8703.  9658. 10096. 10992. 13356.
+  16211.    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf 10505. 10873.  9874. 10749. 11132. 11742. 13371.
+  16091. 18091.    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf 12013. 10949. 11320. 12023. 12578. 13521.
+  15506. 17306. 17986.    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf 13230. 12315. 11920. 12383. 13178. 13616.
+  14783. 16292. 17179. 17908.    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf 13963. 12609. 13265. 13556. 13934.
+  14032. 15259. 16790. 17981. 19670.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf 15788. 13467. 14131. 14615. 14135.
+  14157. 15082. 17144. 18512. 20274.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf 14335. 14999. 15491. 14704.
+  14348. 15197. 17174. 18896. 20835. 21022.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf 15707. 16199. 15433.
+  14721. 15548. 16809. 18081. 19924. 20454.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf 16828. 16437.
+  15881. 16196. 16469. 17164. 18430. 19235. 20443.    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf 18129.
+  17929. 17652. 16847. 17460. 18134. 19579. 20739. 21078.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf 19637. 17712. 18052. 18216. 20221. 21297. 20960.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf 18976. 18749. 20480. 21998. 21148. 21543.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf 19562. 20665. 22141. 21426. 21847.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf 22075. 22343. 22376. 23239.]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf 23772. 24069.]]
+---- Traceback ----
+[[ 0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [ 1.  0.  0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  0.  2.  0.  2. inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  0.  0.  0.  0.  2. inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  0.  0.  0.  0.  0.  2. inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  0.  0.  1.  0.  0.  0.  0.  2. inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf  0.  0.  1.  0.  0.  0.  0.  0.  2. inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  0.  1.  0.  0.  0.  0.  0.  2.  2. inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  1.  1.  0.  0.  0.  0.  0.  2.  2.  2. inf inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  1.  0.  0.  0.  0.  2.  2.  2.  0. inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  1.  0.  0.  0.  0.  0.  2.  0.  0. inf inf inf
+  inf inf]
+ [inf inf inf inf inf inf  1.  0.  0.  1.  0.  0.  0.  0.  0.  0. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf  0.  0.  1.  1.  0.  0.  2.  2.  2. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf  0.  1.  1.  0.  0.  2.  2.  2.  2. inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf  1.  1.  0.  0.  0.  0.  2.  0.  0.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf  1.  1.  0.  0.  0.  0.  0.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  0.  0.  0.  1.
+   0. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  0.  0.  1.
+   0. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  1.
+   0.  0.]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+   0.  0.]]
+---- Aignment ----
+[(0, 0, 2046), (1, 1, 2933), (2, 2, 4203), (2, 3, 5064), (3, 4, 6416), (4, 5, 7492), (5, 5, 8703), (6, 5, 9874), (7, 6, 11320), (8, 7, 12383), (9, 8, 13556), (10, 9, 14135), (11, 10, 14348), (12, 11, 15548), (13, 12, 16469), (13, 13, 17164), (13, 14, 18430), (13, 15, 19235), (14, 16, 20739), (15, 17, 20960), (16, 17, 21148), (17, 17, 21426), (18, 18, 22376), (19, 19, 24069)]
+
+---- Source Sequence ----
+[[1023, 1023, 1023], [935, 935, 935], [702, 702, 702], [402, 402, 402], [141, 141, 141], [6, 6, 6], [46, 46, 46], [246, 246, 246], [537, 537, 537], [819, 819, 819], [996, 996, 996], [1006, 1006, 1006], [846, 846, 846], [571, 571, 571], [275, 275, 275], [61, 61, 61], [2, 2, 2], [118, 118, 118], [369, 369, 369], [670, 670, 670]]
+---- Query Sequence ----
+[[249, 278, 1011], [179, 888, 1023], [0, 0, 0], [0, 500, 0], [0, 0, 0], [1023, 0, 0], [0, 0, 0], [0, 795, 1023], [1023, 977, 0], [283, 1023, 109], [709, 0, 309], [390, 1023, 1023], [0, 1023, 78], [1023, 565, 1023], [385, 0, 0], [1023, 0, 0], [113, 1023, 0], [126, 85, 806], [1023, 0, 122], [691, 1023, 975]]
+---- Dynamic Program ----
+[[ 1531.  2510.    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [ 2950.  2422.  5227.  7532.    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  3452.  4528.  6134.  8240.  9965.    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  4782.  4658.  5430.  6636.  8061.  9267.    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  5081.  5299.  5722.  6886.  7309.  8986. 10845.    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  5099.  5587.  5317.  6346.  6364.  8176. 10170. 11567.
+  12579.    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf  5645.  5455.  6386.  6484.  8136. 10090. 11367.
+  12339. 14637.    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf  6193.  6724.  7124.  8056.  9810. 10761.
+  11533. 13231. 14422.    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf  7804.  7753.  8335.  8405.  9519. 10687.
+  11624. 12652. 14134. 15134.    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf  9595. 10210.  9382.  9586. 10969.
+  12126. 12461. 14225. 14796. 16868.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf 11614. 12583. 10606. 10424. 11213.
+  12939. 12786. 14402. 14710. 17313.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf 14632. 11840. 11476. 12061.
+  13213. 13436. 14737. 14877. 17343. 19342.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf 12914. 12630. 12953.
+  13581. 14023. 15227. 15372. 17030. 18899.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf 14059. 13832.
+  13924. 14666. 15539. 16137. 16700. 18294. 19775.    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf 14754.
+  14575. 15535. 15886. 17325. 16797. 17998. 19183. 20053.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf 16828. 16575. 18314. 17243. 17881. 18956. 19790.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf 19180. 17630. 18268. 19015. 19967. 20933.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf 18133. 18771. 19296. 19744. 20771.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf 20050. 20260. 21014. 22353.]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf 21831. 21693.]]
+---- Traceback ----
+[[ 0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [ 1.  0.  2.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  0.  2.  2.  2. inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  0.  0.  2.  2.  2. inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  0.  2.  2.  2.  2.  2. inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  0.  0.  2.  2.  2.  2.  2.  2. inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf  0.  1.  0.  0.  0.  2.  2.  2.  2. inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  1.  0.  0.  0.  2.  2.  2.  2.  2. inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  1.  0.  0.  0.  0.  2.  2.  0.  2.  2. inf inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  0.  0.  0.  0.  0.  0.  2.  0.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  0.  1.  0.  0.  0.  0.  0.  0.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf inf  0.  1.  1.  0.  0.  1.  0.  0.  0.  0. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf  1.  1.  0.  0.  0.  0.  0.  0.  2. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf  1.  0.  0.  0.  0.  0.  0.  2.  2. inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf  1.  0.  0.  0.  0.  0.  0.  2.  2.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf  0.  0.  0.  1.  0.  2.  2.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  1.  0.  0.  0.
+   0. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  0.  0.  0.
+   2. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  0.
+   0.  0.]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+   0.  0.]]
+---- Aignment ----
+[(0, 0, 1531), (1, 1, 2422), (2, 1, 3452), (3, 2, 4658), (4, 3, 5299), (5, 4, 5317), (5, 5, 6346), (6, 6, 6484), (7, 7, 8056), (8, 8, 9519), (8, 9, 10687), (9, 10, 12126), (10, 11, 12786), (11, 11, 13436), (12, 12, 15227), (13, 13, 16137), (14, 14, 16797), (15, 15, 17881), (16, 16, 19015), (17, 17, 19744), (18, 18, 21014), (19, 19, 21693)]
+
+---- Source Sequence ----
+[[1023, 1023, 1023], [935, 935, 935], [702, 702, 702], [402, 402, 402], [141, 141, 141], [6, 6, 6], [46, 46, 46], [246, 246, 246], [537, 537, 537], [819, 819, 819], [996, 996, 996], [1006, 1006, 1006], [846, 846, 846], [571, 571, 571], [275, 275, 275], [61, 61, 61], [2, 2, 2], [118, 118, 118], [369, 369, 369], [670, 670, 670]]
+---- Query Sequence ----
+[[0, 0, 429], [1023, 589, 1023], [470, 1023, 95], [0, 754, 433], [834, 0, 964], [1023, 1023, 259], [497, 481, 0], [1023, 0, 1023], [0, 1023, 176], [106, 0, 1023], [811, 1023, 1023], [1023, 1023, 0], [877, 1023, 1023], [0, 832, 793], [0, 914, 406], [0, 0, 1023], [1023, 298, 856], [642, 1023, 0], [0, 0, 78], [518, 53, 1023]]
+---- Dynamic Program ----
+[[ 2640.  3074.    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [ 5016.  3162.  4467.  6085.    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  3917.  4322.  5345.  6441.  7526.    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  5346.  4913.  5107.  6503.  7826.  8102.    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  6170.  5959.  6764.  8385.  8663. 10007. 11065.    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  7740.  7140.  7751.  9051.  9357. 10703. 11200. 12188.
+  15027.    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf  8281.  8892.  9918.  9983. 11357. 11856. 12283.
+  14907. 16907.    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf  9833. 10459. 10650. 11783. 12450. 13019.
+  14402. 16202. 18387.    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf 11094. 11083. 11092. 12159. 13167. 13904.
+  14265. 15774. 17086. 18174.    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf 12051. 12562. 12319. 13825. 14903.
+  14320. 15492. 15958. 16816. 18143.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf 12842. 14061. 13369. 14162. 15738.
+  14559. 15370. 15543. 16906. 18484.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf 14882. 14409. 15222. 16085.
+  14788. 15599. 15533. 16926. 18604. 20513.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf 15609. 16102. 16985.
+  15177. 15988. 15918. 16446. 17800. 19669.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf 17027. 17590.
+  16321. 16652. 17128. 16972. 17525. 19119. 20129.    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf 18219.
+  18353. 18092. 18750. 18322. 18017. 18823. 20175. 21519.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf 20077. 20832. 19886. 19276. 19101. 20817. 21779.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf 21509. 20594. 20126. 21272. 22480. 21859.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf 21796. 21267. 21949. 22819. 22135.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf 22479. 23245. 23164. 23254.]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf 25096. 24286.]]
+---- Traceback ----
+[[ 0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [ 1.  0.  0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  0.  2.  2.  2. inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  0.  0.  2.  0.  0. inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  0.  0.  0.  0.  0.  2. inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  1.  0.  0.  0.  0.  0.  0.  2. inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf  1.  0.  0.  0.  0.  0.  0.  0.  2. inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  0.  0.  0.  0.  0.  0.  0.  2.  2. inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  1.  0.  0.  0.  0.  0.  0.  2.  2.  2. inf inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  0.  0.  0.  0.  0.  0.  2.  2.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  0.  1.  0.  0.  1.  0.  2.  2.  0. inf inf inf
+  inf inf]
+ [inf inf inf inf inf inf  0.  1.  0.  0.  1.  0.  0.  2.  0.  0. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf  1.  0.  0.  1.  0.  1.  0.  2.  2. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf  0.  0.  1.  0.  1.  0.  0.  2.  2. inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf  0.  1.  0.  0.  1.  0.  0.  2.  0.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf  1.  0.  1.  1.  0.  0.  0.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  1.  1.  0.  0.
+   0. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  1.  0.  0.
+   1. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  0.
+   1.  0.]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+   1.  0.]]
+---- Aignment ----
+[(0, 0, 2640), (1, 1, 3162), (2, 2, 4322), (3, 3, 5107), (3, 4, 6503), (4, 5, 8385), (5, 6, 9357), (6, 7, 11357), (7, 8, 12450), (8, 9, 13904), (9, 10, 14320), (10, 11, 15370), (11, 12, 15533), (12, 13, 16446), (13, 14, 17525), (14, 15, 18823), (14, 16, 20175), (15, 17, 21779), (16, 18, 21859), (17, 18, 22135), (18, 18, 23164), (19, 19, 24286)]
+
+---- Source Sequence ----
+[[1023, 1023, 1023], [935, 935, 935], [702, 702, 702], [402, 402, 402], [141, 141, 141], [6, 6, 6], [46, 46, 46], [246, 246, 246], [537, 537, 537], [819, 819, 819], [996, 996, 996], [1006, 1006, 1006], [846, 846, 846], [571, 571, 571], [275, 275, 275], [61, 61, 61], [2, 2, 2], [118, 118, 118], [369, 369, 369], [670, 670, 670]]
+---- Query Sequence ----
+[[1023, 0, 1023], [0, 1023, 280], [934, 0, 67], [343, 0, 1023], [0, 0, 1023], [1023, 291, 0], [0, 0, 332], [709, 1023, 0], [0, 73, 276], [0, 0, 1023], [1023, 0, 1023], [1023, 1023, 1023], [1023, 327, 1023], [628, 1023, 1023], [477, 951, 274], [0, 392, 0], [268, 1023, 1023], [730, 2, 1023], [1023, 1023, 1023], [406, 0, 0]]
+---- Dynamic Program ----
+[[ 1023.  2789.    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [ 2134.  2701.  4505.  6120.    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  3579.  4270.  5652.  7377.  8811.    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  4724.  4848.  5352.  6777.  7911.  8785.    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  5732.  6073.  6516.  7689.  8162.  9753. 10097.    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  6727.  7092.  7102.  7824.  8027.  9753. 10096. 11125.
+  13165.    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf  8047.  8161.  8370.  8202.  9713. 10016. 11085.
+  13085. 16016.    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf  9316.  9229.  8780.  9688. 10137. 11285.
+  12885. 15216. 16851.    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf 10876. 10498. 10059.  9975. 10950. 11697.
+  12794. 14252. 15434. 16497.    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf 12049. 12184. 11108. 12083. 12792.
+  12924. 13406. 14306. 14905. 15924.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf 13777. 14705. 12418. 13747. 14102.
+  13842. 13005. 13728. 14150. 15436.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf 16463. 13738. 15087. 15776.
+  14882. 13056. 13718. 14130. 15446. 18062.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf 14898. 15927. 16956.
+  16082. 13587. 13929. 14290. 15176. 17322.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf 16262. 17521.
+  17557. 14943. 14735. 14890. 15061. 16382. 17589.    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf 17560.
+  19292. 17187. 16283. 16584. 15769. 15728. 17231. 18707.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf 20073. 18473. 18774. 17288. 16181. 17859. 18921.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf 21141. 18984. 16575. 18489. 19608. 21984.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf 20332. 17085. 18535. 20122. 22323.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf 18494. 19876. 21838. 22613.]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf 20935. 22539.]]
+---- Traceback ----
+[[ 0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [ 1.  0.  2.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  0.  0.  2.  2.  2. inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  0.  0.  2.  2.  2. inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  0.  0.  0.  2.  2.  2.  2. inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  0.  0.  0.  0.  2.  0.  2.  2. inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf  0.  0.  0.  0.  0.  2.  2.  2.  2. inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  0.  0.  1.  0.  2.  0.  0.  2.  2. inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  1.  1.  1.  0.  0.  0.  0.  2.  2.  2. inf inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  1.  1.  0.  0.  0.  0.  2.  2.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  0.  1.  0.  0.  0.  0.  2.  2.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf inf  0.  1.  0.  0.  1.  1.  0.  2.  2.  0. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf  1.  0.  0.  1.  1.  0.  0.  0.  2. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf  0.  0.  1.  1.  0.  0.  0.  2.  2. inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf  0.  0.  1.  1.  0.  0.  0.  2.  2.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf  1.  1.  0.  1.  1.  0.  0.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  1.  1.  0.  0.
+   0. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf  1.  1.  0.  0.
+   0. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  2.
+   2.  2.]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+   0.  2.]]
+---- Aignment ----
+[(0, 0, 1023), (1, 1, 2701), (2, 2, 4270), (3, 3, 5352), (4, 4, 6516), (5, 5, 7824), (6, 6, 8202), (7, 7, 9688), (7, 8, 10137), (8, 9, 11697), (9, 10, 12924), (10, 11, 13005), (11, 12, 13718), (12, 13, 14290), (13, 14, 15061), (14, 15, 15728), (15, 15, 16181), (16, 15, 16575), (17, 15, 17085), (18, 16, 18494), (18, 17, 19876), (19, 18, 20935), (19, 19, 22539)]
+
+---- Source Sequence ----
+[[1023, 1023, 1023], [935, 935, 935], [702, 702, 702], [402, 402, 402], [141, 141, 141], [6, 6, 6], [46, 46, 46], [246, 246, 246], [537, 537, 537], [819, 819, 819], [996, 996, 996], [1006, 1006, 1006], [846, 846, 846], [571, 571, 571], [275, 275, 275], [61, 61, 61], [2, 2, 2], [118, 118, 118], [369, 369, 369], [670, 670, 670]]
+---- Query Sequence ----
+[[0, 1023, 1023], [0, 0, 57], [1023, 0, 818], [1023, 1023, 0], [131, 0, 0], [1023, 0, 684], [1020, 0, 0], [1023, 1023, 967], [330, 601, 110], [906, 1023, 1023], [0, 1023, 123], [333, 553, 497], [353, 772, 1023], [0, 1023, 1023], [0, 947, 1023], [644, 144, 0], [952, 557, 0], [222, 528, 258], [0, 523, 0], [0, 222, 0]]
+---- Dynamic Program ----
+[[ 1023.  4035.    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [ 2134.  3771.  4911.  6022.    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  4183.  4910.  6254.  7997.  9038.    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf  5332.  5622.  6554.  7329.  8634. 10056.    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  7032.  7527.  6846.  8412.  9573. 12163. 12843.    inf
+     inf    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf  8867.  9072.  6983.  8547.  9438. 12433. 13186. 15777.
+  16917.    inf    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf 10867.  7160.  8644.  9613. 12313. 13216. 16000.
+  16877. 18122.    inf    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf  7767.  8621.  9887. 11888. 12463. 14677.
+  15823. 16468. 17878.    inf    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf  9247.  8937. 10178. 11289. 11987. 13328.
+  14765. 15025. 15930. 17439.    inf    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf 10095. 10776. 10734. 12150. 12482.
+  14201. 15275. 15742. 16969. 18120.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf 11430. 12111. 10817. 12681. 12294.
+  14190. 15795. 16169. 16792. 17864.    inf    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf 13456. 10890. 12794. 12428.
+  14200. 15825. 16699. 17209. 17874. 20094.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf 11365. 12387. 12801.
+  14174. 15329. 16073. 17273. 18333. 19624.    inf    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf 12097. 13336.
+  14272. 14504. 15375. 16850. 18249. 19320. 20286.    inf    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf 14224.
+  14511. 14830. 15827. 17146. 18545. 19024. 20258. 20581.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf 15711. 16795. 17812. 19055. 19272. 20472. 21083.    inf    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf 18839. 19780. 19841. 20779. 21474. 21608.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf 20691. 20450. 21232. 21433. 22074.    inf]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf 21590. 21649. 22325. 22959.]
+ [   inf    inf    inf    inf    inf    inf    inf    inf    inf    inf
+     inf    inf    inf    inf    inf    inf    inf    inf 23136. 24113.]]
+---- Traceback ----
+[[ 0.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [ 1.  0.  2.  2. inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  0.  0.  2.  0.  2. inf inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf  1.  0.  0.  0.  2.  2. inf inf inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  0.  0.  0.  2.  2.  2.  2. inf inf inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf  1.  0.  1.  0.  0.  2.  0.  0.  2. inf inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf  0.  1.  0.  0.  0.  2.  0.  0.  2. inf inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  1.  0.  2.  0.  2.  2.  2.  2.  2. inf inf inf inf inf
+  inf inf]
+ [inf inf inf inf  1.  0.  0.  0.  2.  2.  2.  2.  2.  2. inf inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  0.  0.  2.  0.  2.  2.  0.  2.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf  1.  0.  1.  0.  0.  2.  2.  0.  0.  2. inf inf inf
+  inf inf]
+ [inf inf inf inf inf inf  0.  1.  0.  1.  0.  0.  0.  0.  0.  0. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf  1.  0.  2.  0.  2.  2.  2.  0.  0. inf inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf  0.  2.  0.  0.  2.  2.  2.  2.  2. inf
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf  0.  0.  0.  0.  0.  0.  0.  2.  2.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf  0.  0.  0.  0.  0.  0.  0.
+  inf inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  0.  0.  0.  0.
+   0. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  0.  0.  0.
+   2. inf]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf  0.  0.
+   0.  0.]
+ [inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf inf
+   0.  0.]]
+---- Aignment ----
+[(0, 0, 1023), (1, 1, 3771), (2, 2, 4910), (3, 3, 6554), (4, 4, 6846), (5, 4, 6983), (6, 4, 7160), (7, 5, 8621), (8, 6, 10178), (9, 7, 10734), (9, 8, 12150), (10, 9, 12294), (11, 9, 12428), (12, 10, 14174), (13, 11, 14504), (13, 12, 15375), (13, 13, 16850), (14, 14, 18545), (15, 15, 19272), (16, 16, 20779), (17, 17, 21433), (18, 18, 22325), (19, 19, 24113)]
+

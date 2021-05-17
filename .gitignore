@@ -1,0 +1,8 @@
+*~
+*.swp
+
+doc/*
+!doc/*.pdf
+!doc/*.tex
+!doc/*.png
+!doc/*.eddx
