@@ -93,9 +93,9 @@
         input & i\_rindex & 5 & R序列索引（来自顶层输入） \\[5pt]
         input & i\_rsrc & 6 * 2 & 见ProcElem \\[5pt]
         \\
-        input & i\_sel0 & 6 * 3 & 控制信号，从缓存区选择数据D0进入计算 \\[5pt]
-        input & i\_sel1 & 6 * 3 & 控制信号，从缓存区选择数据D1进入计算 \\[5pt]
-        input & i\_sel2 & 6 * 3 & 控制信号，从缓存区选择数据D2进入计算 \\[5pt]
+        input & i\_sel0 & 6 * 3 & \multirow{3}*{\makecell[l]{从缓存区选择数据进入D0、D1、D2\\例如当sel==3'd1时\\选择缓存区中第二个16位数作为输入}} \\[5pt]
+        input & i\_sel1 & 6 * 3 & \\[5pt]
+        input & i\_sel2 & 6 * 3 & \\[5pt]
         \\
         output & D & 6 * 16 & 距离数据 \\[5pt]
         output & o\_tindex & 6 * 5 & T序列索引 \\[5pt]
@@ -306,5 +306,32 @@
 
 \newpage
 \section{控制单元 DTW\_CTRL（Controller）}
+
+\begin{table}[!h]
+    \centering
+    \begin{tabular}{clcl}
+        \toprule
+        类型 & 名称 & 位宽 & 说明 \\
+        \midrule
+        \textbf{输入信号} \\[5pt]
+        input & clk && 时钟端口 \\[5pt]
+        input & nrst && 复位端口，低有效 \\[5pt]
+        input & i\_valid && 输入序列有效信号，高有效 \\[5pt]
+        \\
+        \textbf{控制DC单元} \\[5pt]
+        output & o\_dc\_ena && DC单元使能信号，高有效 \\[5pt]
+        output & o\_tindex & 5 & T序列索引（来自SRAM），与周期数相同 \\[5pt]
+        output & o\_rindex & 5 & R序列索引（来自顶层输入），与周期数相同 \\[5pt]
+        output & o\_tsrc & 6 * 2 & 分别控制六个PE的R序列来源，见ProcElem \\[5pt]
+        output & o\_rsrc & 6 * 2 & 分别控制六个PE的T序列来源，见ProcElem \\[5pt]
+        output & o\_sel0 & 6 * 3 & 分别控制六个PE的D0数据来源，见DTW\_DC \\[5pt]
+        output & o\_sel1 & 6 * 3 & 分别控制六个PE的D1数据来源，见DTW\_DC \\[5pt]
+        output & o\_sel2 & 6 * 3 & 分别控制六个PE的D2数据来源，见DTW\_DC \\[5pt]
+        \\
+        \textbf{控制BT单元} \\[5pt]
+        output & o\_bt\_start && 控制BT单元开始进行回溯，单周期脉冲，高有效 \\[5pt]
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 \end{document}
