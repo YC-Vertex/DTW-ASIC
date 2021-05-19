@@ -1,3 +1,5 @@
+`include "ScoreArr.v"
+
 module DTW_BT(
     input   wire    clk,
     input   wire    nrst,
@@ -8,6 +10,7 @@ module DTW_BT(
     input   wire    [11:0]   i_path,
 
     input   wire    i_bt_start, // 连接至最后一个单元的i_outena端口
+    output  wire    o_bt_end,
     output  wire    [31:0]  o_data // to SRAM
 );
 
@@ -69,7 +72,7 @@ module DTW_BT(
         ri_1, ri_2, ri_3, ri_4, ri_5, ri_6,
         D_1, D_2, D_3, D_4, D_5, D_6,
         path_1, path_2, path_3, path_4, path_5, path_6,
-        i_bt_start, o_data
+        i_bt_start, o_bt_end, o_data
     );
 
 endmodule

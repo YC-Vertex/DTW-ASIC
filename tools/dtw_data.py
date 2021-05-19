@@ -3,6 +3,8 @@ import numpy as np
 N = 10
 
 if __name__ == '__main__':
+    np.set_printoptions(linewidth=200)
+
     src = 0.5 + 0.5 * np.cos(np.linspace(0, np.pi*3.6, 20))
     src_std = np.clip(np.int16(src*1024), 0, 1023)
 

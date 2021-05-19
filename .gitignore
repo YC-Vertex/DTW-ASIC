@@ -6,3 +6,6 @@ doc/*
 !doc/*.tex
 !doc/*.png
 !doc/*.eddx
+
+*.gen
+*.log

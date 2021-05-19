@@ -71,6 +71,7 @@ module DTW_DC(
                     3'd3: _D0 = D_2[47:32];
                     3'd4: _D0 = D_2[31:16];
                     3'd5: _D0 = D_2[15: 0];
+                    3'd7: _D0 = 16'd0;
                     default: _D0 = 16'hffff;
                 endcase
             end
@@ -83,6 +84,7 @@ module DTW_DC(
                     3'd3: _D1 = D_1[47:32];
                     3'd4: _D1 = D_1[31:16];
                     3'd5: _D1 = D_1[15: 0];
+                    3'd7: _D1 = 16'd0;
                     default: _D1 = 16'hffff;
                 endcase
             end
@@ -95,6 +97,7 @@ module DTW_DC(
                     3'd3: _D2 = D_1[47:32];
                     3'd4: _D2 = D_1[31:16];
                     3'd5: _D2 = D_1[15: 0];
+                    3'd7: _D2 = 16'd0;
                     default: _D2 = 16'hffff;
                 endcase
             end

@@ -1,6 +1,8 @@
 import argparse
 import numpy as np
 
+from GenPlayground import GenPlayground
+
 def dist(x, y):
     return np.sum(np.abs(np.array(x) - np.array(y))) 
 
@@ -13,18 +15,10 @@ def DTW_Itakura(src, qry, w):
     l = m # l = m = n
 
     # 动态规划范围
-    s1 = ((l+1)/2 - w, (l+1)/2 + w)
-    s2 = ((l+1)/2 + w, (l+1)/2 - w)
-    IP = np.zeros((l+1,l+1))
+    IP, _, _ = GenPlayground(l, w)
+    IP = np.vstack((np.zeros((1, IP.shape[1])), IP))
+    IP = np.hstack((np.zeros((IP.shape[0], 1)), IP))
     IP[0,0] = 1
-    for i in range(1, l+1):
-        for j in range(1, l+2-i):
-            IP[i,j] = \
-                ((i+0.5)/(j-0.5) >= s1[0]/s1[1]) or \
-                ((i-0.5)/(j+0.5) <= s2[0]/s2[1])
-    for i in range(1, l+1):
-        for j in range(l+2-i, l+1):
-            IP[i,j] = IP[l+1-i,l+1-j]
 
     # 代价矩阵
     DP = np.zeros((n+1, m+1)) + float('inf')
@@ -72,6 +66,8 @@ def genOutput(align, fout):
     fout.flush()
 
 if __name__ == '__main__':
+    np.set_printoptions(linewidth=200)
+
     parser = argparse.ArgumentParser()
     parser.add_argument('-isrc', '--srcfile', type=str, default='../data/memory.vec',
                         help='input file (source sequence)')

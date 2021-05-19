@@ -3,7 +3,7 @@ module ScoreUnit(
     input   wire    nrst,
 
     input   wire    [15:0]  D,
-    input   wire    [1:0]   i_path;
+    input   wire    [1:0]   i_path,
     input   wire    [4:0]   i_tindex,
     input   wire    [4:0]   i_rindex,
 
@@ -34,7 +34,7 @@ module ScoreUnit(
             path <= PATH_RST;
         end
         else begin
-            if (i_tindex == TINDEX && i_rindex == RINDEX) begin
+            if (i_tindex == TINDEX-1 && i_rindex == RINDEX-1) begin
                 data <= {3'b0, TINDEX, 3'b0, RINDEX, D};
                 path <= i_path;
             end
@@ -54,7 +54,7 @@ module ScoreUnit(
                 case (path)
                     PATH0: o_ena0 <= 1'b1;
                     PATH1: o_ena1 <= 1'b1;
-                    PAHT2: o_ena2 <= 1'b1;
+                    PATH2: o_ena2 <= 1'b1;
                 endcase
             end
         end

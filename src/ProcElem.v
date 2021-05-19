@@ -93,9 +93,9 @@ module ProcElem(
 
         // 计算绝对值
         if (mediant0[10])
-            abs0 < 1 + (~mediant0[9:0]);
+            abs0 = 1 + (~mediant0[9:0]);
         else
-            abs0 < mediant0;
+            abs0 = mediant0;
 
         if (mediant1[10])
             abs1 = 1 + (~mediant1[9:0]);
