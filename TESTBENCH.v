@@ -38,9 +38,9 @@ module TESTBENCH;
 
     reg clk, nrst;
     // Memory
-    reg [9:0] mem_addr;
+    wire [9:0] mem_addr;
     wire [31:0] mem_data;
-    reg mem_WR, mem_CS;
+    wire mem_WR, mem_CS;
     // DTW Processor
     reg [31:0] dtw_in;
     reg dtw_valid;
@@ -49,7 +49,7 @@ module TESTBENCH;
     integer ifile;
     integer dummy;
 
-    Top dtw(clk, nrst,
+    TOP dtw(clk, nrst,
         mem_addr, mem_data, mem_WR, mem_CS,
         dtw_in, dtw_valid, dtw_ready);
     Memory mem(clk, mem_WR, mem_CS, mem_addr, mem_data);
