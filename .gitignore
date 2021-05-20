@@ -9,3 +9,5 @@ doc/*
 
 *.gen
 *.log
+
+__pycache__/

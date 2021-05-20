@@ -18,9 +18,9 @@ module DTW_DC(
     input   wire    [17:0]  i_sel1,
     input   wire    [17:0]  i_sel2,
 
-    output  wire    [95:0]  D,
     output  wire    [29:0]  o_tindex,
     output  wire    [29:0]  o_rindex,
+    output  wire    [95:0]  D,
     output  wire    [11:0]  o_path
 );
 
@@ -28,16 +28,24 @@ module DTW_DC(
     wire [95:0] D1;
     wire [95:0] D2;
 
-    wire [95:0] D_1; // 一个周期前的数据
-    wire [95:0] D_2; // 两个周期前的数据
+    reg [95:0] D_delay; // 两个周期前的数据
 
     SystArr syst_arr(
-        clk, nrst, ena,
-        T, i_tindex, i_tsrc,
-        R, i_rindex, i_rsrc,
-        D0, D1, D2, D, o_tindex, o_rindex, o_path
+        .clk(clk), .nrst(nrst), .ena(ena),
+        .T(T), .i_tindex(i_tindex), .i_tsrc(i_tsrc),
+        .R(R), .i_rindex(i_rindex), .i_rsrc(i_rsrc),
+        .D0(D0), .D1(D1), .D2(D2),
+        .o_tindex(o_tindex), .o_rindex(o_rindex), .D(D), .o_path(o_path)
     );
-    Cache cache(clk, nrst, ena, D, D_1, D_2);
+
+    always @ (posedge clk or negedge nrst) begin
+        if (~nrst | ~ena) begin
+            D_delay <= 96'd0;
+        end
+        else begin
+            D_delay <= D;
+        end
+    end
 
     generate
         genvar i;
@@ -65,12 +73,12 @@ module DTW_DC(
             
             always @ (*) begin
                 case (_s0)
-                    3'd0: _D0 = D_2[95:80];
-                    3'd1: _D0 = D_2[79:64];
-                    3'd2: _D0 = D_2[63:48];
-                    3'd3: _D0 = D_2[47:32];
-                    3'd4: _D0 = D_2[31:16];
-                    3'd5: _D0 = D_2[15: 0];
+                    3'd0: _D0 = D_delay[95:80];
+                    3'd1: _D0 = D_delay[79:64];
+                    3'd2: _D0 = D_delay[63:48];
+                    3'd3: _D0 = D_delay[47:32];
+                    3'd4: _D0 = D_delay[31:16];
+                    3'd5: _D0 = D_delay[15: 0];
                     3'd7: _D0 = 16'd0;
                     default: _D0 = 16'hffff;
                 endcase
@@ -78,12 +86,12 @@ module DTW_DC(
 
             always @ (*) begin
                 case (_s1)
-                    3'd0: _D1 = D_1[95:80];
-                    3'd1: _D1 = D_1[79:64];
-                    3'd2: _D1 = D_1[63:48];
-                    3'd3: _D1 = D_1[47:32];
-                    3'd4: _D1 = D_1[31:16];
-                    3'd5: _D1 = D_1[15: 0];
+                    3'd0: _D1 = D[95:80];
+                    3'd1: _D1 = D[79:64];
+                    3'd2: _D1 = D[63:48];
+                    3'd3: _D1 = D[47:32];
+                    3'd4: _D1 = D[31:16];
+                    3'd5: _D1 = D[15: 0];
                     3'd7: _D1 = 16'd0;
                     default: _D1 = 16'hffff;
                 endcase
@@ -91,12 +99,12 @@ module DTW_DC(
 
             always @ (*) begin
                 case (_s2)
-                    3'd0: _D2 = D_1[95:80];
-                    3'd1: _D2 = D_1[79:64];
-                    3'd2: _D2 = D_1[63:48];
-                    3'd3: _D2 = D_1[47:32];
-                    3'd4: _D2 = D_1[31:16];
-                    3'd5: _D2 = D_1[15: 0];
+                    3'd0: _D2 = D[95:80];
+                    3'd1: _D2 = D[79:64];
+                    3'd2: _D2 = D[63:48];
+                    3'd3: _D2 = D[47:32];
+                    3'd4: _D2 = D[31:16];
+                    3'd5: _D2 = D[15: 0];
                     3'd7: _D2 = 16'd0;
                     default: _D2 = 16'hffff;
                 endcase

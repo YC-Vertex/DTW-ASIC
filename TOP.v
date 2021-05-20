@@ -37,8 +37,6 @@ module TOP(
     wire [29:0] ri_dc2bt;
     wire [11:0] path;
 
-    wire [9:0] addr;
-
     DTW_DC dtw_dc(
         .clk(clk_i), .nrst(rst_i), .ena(dc_ena),
 
@@ -47,7 +45,7 @@ module TOP(
 
         .i_sel0(sel0), .i_sel1(sel1), .i_sel2(sel2),
 
-        .D(D), .o_tindex(ti_dc2bt), .o_rindex(ri_dc2bt), .o_path(path)
+        .o_tindex(ti_dc2bt), .o_rindex(ri_dc2bt), .D(D), .o_path(path)
     );
 
     DTW_BT dtw_bt(
@@ -74,7 +72,7 @@ module TOP(
         .o_tsrc(tsrc), .o_rsrc(rsrc),
         .o_sel0(sel0), .o_sel1(sel1), .o_sel2(sel2),
 
-        .o_addr(addr_dc), .o_WR(WR_o), .o_CS(CS_o),
+        .o_addr(addr_o), .o_WR(WR_o), .o_CS(CS_o),
 
         .o_bt_start(bt_start), .o_bt_end(bt_end)
     );

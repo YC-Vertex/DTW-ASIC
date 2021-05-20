@@ -23,6 +23,7 @@ module ProcElem(
     output  reg     [4:0]   o_tindex,
     output  reg     [29:0]  R,
     output  reg     [4:0]   o_rindex,
+    
     output  reg     [15:0]  D,
     output  reg     [1:0]   o_path
 );
@@ -32,18 +33,36 @@ module ProcElem(
     localparam PATH2 = 2'b01; // (i,j-1)
     localparam PATH_RST = 2'b00;
 
+    reg [29:0] T_rt;
+    reg [29:0] R_rt;
+
     // 加载数据
+    always @ (*) begin
+        case (i_tsrc)
+            2'd0: T_rt = T;
+            2'd1: T_rt = T_prev;
+            2'd2: T_rt = T_global;
+        endcase
+    end
+    always @ (*) begin
+        case (i_rsrc)
+            2'd0: R_rt = R;
+            2'd1: R_rt = R_prev;
+            2'd2: R_rt = R_global;
+        endcase
+    end
+    // 加载数据（同步）
     always @ (posedge clk or negedge nrst) begin
         if (~nrst | ~ena) begin
             T <= 30'd0;
+            o_tindex <= 5'd31;
         end
         else begin
+            T <= T_rt;
             if (i_tsrc == 2'd1) begin
-                T <= T_prev;
                 o_tindex <= i_tindex_prev;
             end
             else if (i_tsrc == 2'd2) begin
-                T <= T_global;
                 o_tindex <= i_tindex_global;
             end
         end
@@ -51,14 +70,14 @@ module ProcElem(
     always @ (posedge clk or negedge nrst) begin
         if (~nrst | ~ena) begin
             R <= 30'd0;
+            o_rindex <= 5'd31;
         end
         else begin
+            R <= R_rt;
             if (i_rsrc == 2'd1) begin
-                R <= R_prev;
                 o_rindex <= i_rindex_prev;
             end
             else if (i_rsrc == 2'd2) begin
-                R <= R_global;
                 o_rindex <= i_rindex_global;
             end
         end
@@ -71,39 +90,39 @@ module ProcElem(
     reg [9:0] v0_T;
     reg [9:0] v1_T;
     reg [9:0] v2_T;
-    reg [10:0] mediant0;
-    reg [10:0] mediant1;
-    reg [10:0] mediant2;
+    reg signed [10:0] mediant0;
+    reg signed [10:0] mediant1;
+    reg signed [10:0] mediant2;
     reg [10:0] abs0;
     reg [10:0] abs1;
     reg [10:0] abs2;
     reg [12:0] D_abs;
 
     always @ (*) begin
-        v0_R = R[29:20];
-        v1_R = R[19:10];
-        v2_R = R[ 9: 0];
-        v0_T = T[29:20];
-        v1_T = T[19:10];
-        v2_T = T[ 9: 0]; // 取相反数需要扩展符号位
+        v0_R = R_rt[29:20];
+        v1_R = R_rt[19:10];
+        v2_R = R_rt[ 9: 0];
+        v0_T = T_rt[29:20];
+        v1_T = T_rt[19:10];
+        v2_T = T_rt[ 9: 0]; // 取相反数需要扩展符号位
         // 扩展一个符号位再相减，防止溢出
-        mediant0 = {v0_R[9],v0_R} - {v0_T[9],v0_T}; 
-        mediant1 = {v1_R[9],v1_R} - {v1_T[9],v1_T};
-        mediant2 = {v2_R[9],v2_R} - {v2_T[9],v2_T};
+        mediant0 = {v0_R[9], v0_R} - {v0_T[9], v0_T}; 
+        mediant1 = {v1_R[9], v1_R} - {v1_T[9], v1_T};
+        mediant2 = {v2_R[9], v2_R} - {v2_T[9], v2_T};
 
         // 计算绝对值
         if (mediant0[10])
-            abs0 = 1 + (~mediant0[9:0]);
+            abs0 = -mediant0;
         else
             abs0 = mediant0;
 
         if (mediant1[10])
-            abs1 = 1 + (~mediant1[9:0]);
+            abs1 = -mediant1;
         else
             abs1 = mediant1;
 
         if (mediant2[10])
-            abs2 = 1 + (~mediant2[9:0]);
+            abs2 = -mediant2;
         else
             abs2 = mediant2;
 
@@ -113,7 +132,8 @@ module ProcElem(
 
     // 最小值部分
     reg [15:0] D_min;
-    reg path_t, t1, t2, t3; // temp
+    reg t1, t2, t3; // temp
+    reg [1:0] path_t;
 
     always @ (*) begin
         t1 = D0 < D1;
@@ -135,9 +155,15 @@ module ProcElem(
     end
 
     // 输出距离和路径
-    always @ (*) begin
-        D = D_abs + D_min;
-        o_path = path_t;
+    always @ (posedge clk) begin
+        if (~nrst) begin
+            D <= 16'd0;
+            o_path <= PATH_RST;
+        end
+        else begin
+            D <= D_abs + D_min;
+            o_path <= path_t;
+        end
     end
 
 endmodule

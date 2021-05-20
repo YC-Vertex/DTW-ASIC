@@ -22,6 +22,7 @@ module ScoreUnit(
     localparam PATH2 = 2'b01; // (i,j-1)
     localparam PATH_RST = 2'b00;
 
+    reg [15:0] _D; // for debug
     reg [31:0] data;
     reg [1:0] path; // 记录上一个位置，= p0/p1/p2
 
@@ -34,7 +35,8 @@ module ScoreUnit(
             path <= PATH_RST;
         end
         else begin
-            if (i_tindex == TINDEX-1 && i_rindex == RINDEX-1) begin
+            if (i_tindex == TINDEX && i_rindex == RINDEX) begin
+                _D <= D;
                 data <= {3'b0, TINDEX, 3'b0, RINDEX, D};
                 path <= i_path;
             end

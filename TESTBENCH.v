@@ -8,7 +8,8 @@ module Memory(
     input   wire    i_WR,   // 0 - Read, 1 - Write
     input   wire    i_CS,   // 低有效
     input   wire    [9:0]   i_addr,
-    inout   wire    [31:0]  dbus
+    inout   wire    [31:0]  dbus,
+    input   wire    check
 );
 
     reg [31:0] MEM [0:1023];
@@ -19,16 +20,48 @@ module Memory(
     assign w = ~i_CS & i_WR;
     assign dbus = r ? data : 32'bz;
 
+    integer ofile;
+    integer gold_out;
+    integer index;
+    integer success;
+    integer dummy;
+
     initial begin
         $readmemh("data/memory.vec", MEM);
+        ofile = $fopen("data/out.vec", "r");
     end
 
     always @ (posedge i_clk) begin
         if (r) begin
             data <= MEM[i_addr];
         end
-        else begin
-            data <= 32'bx;
+    end
+    
+    always @ (posedge i_clk) begin
+        if (w) begin
+            MEM[i_addr] <= dbus;
+        end
+    end
+
+    always @ (posedge check) begin
+        index = 10'd20;
+        success = 1'b1;
+
+        begin: gold_test
+            forever begin
+                dummy = $fscanf(ofile, "%h", gold_out);
+                if (gold_out == 32'hffff_ffff)
+                    disable gold_test;
+                if (gold_out != MEM[index]) begin
+                    $display("%d: %08x %08x", index, gold_out, MEM[index]);
+                    success = 1'b0;
+                    $display("Fail!");
+                end
+                index = index + 1;
+            end
+            if (success) begin
+                $display("Success!\n");
+            end
         end
     end
 
@@ -41,10 +74,13 @@ module TESTBENCH;
     wire [9:0] mem_addr;
     wire [31:0] mem_data;
     wire mem_WR, mem_CS;
+    wire [31:0] MEM [0:1023];
     // DTW Processor
     reg [31:0] dtw_in;
     reg dtw_valid;
     wire dtw_ready;
+
+    reg check;
 
     integer ifile;
     integer dummy;
@@ -52,7 +88,7 @@ module TESTBENCH;
     TOP dtw(clk, nrst,
         mem_addr, mem_data, mem_WR, mem_CS,
         dtw_in, dtw_valid, dtw_ready);
-    Memory mem(clk, mem_WR, mem_CS, mem_addr, mem_data);
+    Memory mem(clk, mem_WR, mem_CS, mem_addr, mem_data, check);
 
     always #(`PERIOD/2) clk = ~clk;
     
@@ -65,8 +101,9 @@ module TESTBENCH;
         nrst = 1'b0;
         dtw_in = 32'd0;
         dtw_valid = 1'b0;
+        check = 1'b0;
 
-        #(`PERIOD*9.5) nrst = 1'b1;
+        #(`PERIOD*9.6) nrst = 1'b1;
         // invalid input
         #(`PERIOD*10) dtw_in = $random % 32'hffff_ffff;
         #(`PERIOD*10) dtw_in = $random % 32'hffff_ffff;
@@ -83,6 +120,9 @@ module TESTBENCH;
             dtw_in = 32'h0;
             // wait for the output
             while (dtw_ready != 1'b1) #(`PERIOD);
+
+            check = 1'b1;
+            #(`PERIOD) check = 1'b0;
         end
 
         $fclose(ifile);

@@ -17,8 +17,8 @@ def init_cycle(cycle, IP_cycle, ind_src, ind_sel):
     for ind in ind_sel[1:]:
         for item in sel:
             Dict[f'{item}{ind}'] = None
-    Dict['o_tindex'] = None
-    Dict['o_rindex'] = None
+    Dict['tindex'] = None
+    Dict['rindex'] = None
     Dict['R'] = None
 
     return Arr, Dict
@@ -31,16 +31,12 @@ def Gen_CTRL(IP, IP_cycle, IP_pe):
     for i in range(6):
         ind_src.append(f'[{11-i*2}:{10-i*2}]')
         ind_sel.append(f'[{17-i*3}:{15-i*3}]')
-
-    r_buf_ptr = 0
     
     for cycle in range(np.max(IP_cycle) + 1):
         Arr, Dict = init_cycle(cycle, IP_cycle, ind_src, ind_sel)
-        r_flag = False
 
         for i in range(20):
             for j in range(20):
-
                 if Arr[i,j]:
                     tsrc = f'o_tsrc{ind_src[IP_pe[i,j]]}'
                     rsrc = f'o_rsrc{ind_src[IP_pe[i,j]]}'
@@ -81,13 +77,50 @@ def Gen_CTRL(IP, IP_cycle, IP_pe):
                     else:
                         Dict[sel2] = f'3\'d{IP_pe[i,j-1] - 1}'
 
-                    # o_tindex
-                    if j == 0 or IP[i,j-1] == False:
-                        Dict['o_tindex'] = f'5\'d{i}'
+        f.write(f'6\'d{cycle}: begin\n')
+        for k,v in Dict.items():
+            if v == None:
+                continue
+            f.write(f'    {k}<={v};\n')
+            f.flush()
+        f.write('end\n\n')
+
+    f.write('\n-----\n\n\n')
+
+    r_buf_ptr = 0
+    for cycle in range(np.max(IP_cycle) + 1):
+        Arr, _ = init_cycle(cycle, IP_cycle, ind_src, ind_sel)
+        r_flag = False
+        for i in range(20):
+            for j in range(20):
+                if Arr[i,j]:
                     # o_rindex & R
                     if i == 0 or IP[i-1,j] == False:
-                        Dict['o_rindex'] = f'5\'d{j}'
-                        Dict['R'] = f'R_buf[{29+r_buf_ptr*30}:{r_buf_ptr*30}]'
+                        f.write(
+                            f'6\'d{cycle+1}: '
+                            f'R = R_buf[{29+r_buf_ptr*30}:{r_buf_ptr*30}];\n'
+                        )
+                        f.flush()
+                        r_flag = True
+        if r_flag == False:
+            r_buf_ptr += 1
+
+    f.write('\n-----\n\n\n')
+
+    r_buf_ptr = 0
+    for cycle in range(np.max(IP_cycle) + 1):
+        Arr, Dict = init_cycle(cycle, IP_cycle, ind_src, ind_sel)
+        r_flag = False
+
+        for i in range(20):
+            for j in range(20):
+                if Arr[i,j]:
+                    # o_tindex
+                    if j == 0 or IP[i,j-1] == False:
+                        Dict['tindex'] = f'5\'d{i}'
+                    # o_rindex & R
+                    if i == 0 or IP[i-1,j] == False:
+                        Dict['rindex'] = f'5\'d{j}'
                         r_flag = True
 
         if r_flag == False:
@@ -101,6 +134,8 @@ def Gen_CTRL(IP, IP_cycle, IP_pe):
             f.flush()
         f.write('end\n\n')
 
+    
+
     f.close()
 
 
@@ -108,6 +143,6 @@ if __name__ == '__main__':
     np.set_printoptions(linewidth=200)
 
     IP, IP_cycle, IP_pe = GenPlayground()
-    print(IP_cycle)
-    print(IP_pe)
+    # print(IP_cycle)
+    # print(IP_pe)
     Gen_CTRL(IP, IP_cycle, IP_pe)

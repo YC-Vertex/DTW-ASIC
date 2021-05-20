@@ -11,14 +11,14 @@ def Gen_ScoreArr(IP, IP_cycle, IP_pe):
                 # instantiate the array
                 f.write(
                     f'wire i_outena_{i}_{j};\n'
-                    f'ScoreUnit #(.TINDEX({i}), .RINDEX({j})) uut{i}_{j}(\n'
+                    f'ScoreUnit #(.TINDEX(5\'d{i}), .RINDEX(5\'d{j})) uut{i}_{j}(\n'
                     f'    .clk(clk),\n' 
                     f'    .nrst(nrst),\n\n'
                     f'    .D(D_{IP_pe[i,j]}),\n'
                     f'    .i_path(i_path_{IP_pe[i,j]}),\n'
                     f'    .i_tindex(i_tindex_{IP_pe[i,j]}),\n'
-                    f'    .i_rindex(i_rindex_{IP_pe[i,j]}),\n'
-                    f'    .i_outena(i_outena_{i}_{j}),\n\n'
+                    f'    .i_rindex(i_rindex_{IP_pe[i,j]}),\n\n'
+                    f'    .i_outena(i_outena_{i}_{j}),\n'
                     f'    .o_data(o_data),\n'
                     f'    .o_ena0(o_ena0_{i}_{j}),\n'
                     f'    .o_ena1(o_ena1_{i}_{j}),\n'

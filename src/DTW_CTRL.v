@@ -25,20 +25,48 @@ module DTW_CTRL(
     input   wire    o_bt_end
 );
 
-    localparam DC_END = 6'd38;
+    localparam DC_END = 6'd40;
 
     assign o_ready = ~o_dc_ena & ~o_bt_ena;
 
     reg [5:0] count;
 
+    reg [4:0] tindex;
+    reg [4:0] rindex;
+    always @ (posedge clk or negedge nrst) begin
+        if (~nrst) begin
+            o_tindex <= 5'd0;
+            o_rindex <= 5'd0;
+        end
+        else begin
+            o_tindex <= tindex;
+            o_rindex <= rindex;
+        end
+    end
+
     wire [9:0] addr_dc;
     wire [9:0] addr_bt;
-    assign addr_dc = {5'b0, o_tindex};
+    assign addr_dc = {5'b0, tindex};
     assign addr_bt = {4'b0, count};
-    assign addr = (o_dc_ena | i_valid) ? {5'b0, o_tindex} : 10'bz;
+    assign o_addr = o_bt_ena ? addr_bt : addr_dc;
 
-    assign o_WR = o_bt_ena & ~o_bt_start;
-    assign o_CS = 1'b1;
+    assign o_WR = o_bt_ena;
+    assign o_CS = 1'b0;
+
+    // DC & BT 计数信号
+    always @ (posedge clk or negedge nrst) begin
+        if (~nrst) begin
+            count <= 6'd0;
+        end
+        else begin
+            if (o_dc_ena && count == DC_END)
+                count <= 6'd20;
+            else if (o_bt_ena && o_bt_end)
+                count <= 6'd0;
+            else if ((o_dc_ena | i_valid) | o_bt_ena)
+                count <= count + 6'd1;
+        end
+    end
 
     // DC 使能信号
     always @ (posedge clk or negedge nrst) begin
@@ -53,21 +81,6 @@ module DTW_CTRL(
         end
     end
 
-    // DC 计数信号
-    always @ (posedge clk or negedge nrst) begin
-        if (~nrst) begin
-            count <= 6'd0;
-        end
-        else begin
-            if ((o_dc_ena | i_valid) | o_bt_ena)
-                count <= count + 6'd1;
-            else if (o_dc_ena && count == DC_END)
-                count <= 6'd19;
-            else if (o_bt_ena && o_bt_end)
-                count <= 6'd0;
-        end
-    end
-
     // BT 使能信号
     always @ (posedge clk or negedge nrst) begin
         if (~nrst) begin
@@ -75,7 +88,7 @@ module DTW_CTRL(
             o_bt_start <= 1'b0;
         end
         else begin
-            if (count == DC_END) begin
+            if (o_dc_ena && count == DC_END) begin
                 o_bt_ena <= 1'b1;
                 o_bt_start <= 1'b1;
             end
@@ -112,9 +125,6 @@ module DTW_CTRL(
                     o_sel0[11:9]<=3'd7;
                     o_sel1[11:9]<=3'd6;
                     o_sel2[11:9]<=3'd6;
-                    o_tindex<=5'd0;
-                    o_rindex<=5'd0;
-                    R<=R_buf[29:0];
                 end
 
                 6'd1: begin
@@ -128,9 +138,6 @@ module DTW_CTRL(
                     o_sel0[8:6]<=3'd6;
                     o_sel1[8:6]<=3'd2;
                     o_sel2[8:6]<=3'd6;
-                    o_tindex<=5'd1;
-                    o_rindex<=5'd1;
-                    R<=R_buf[29:0];
                 end
 
                 6'd2: begin
@@ -152,9 +159,6 @@ module DTW_CTRL(
                     o_sel0[8:6]<=3'd3;
                     o_sel1[8:6]<=3'd2;
                     o_sel2[8:6]<=3'd6;
-                    o_tindex<=5'd2;
-                    o_rindex<=5'd2;
-                    R<=R_buf[59:30];
                 end
 
                 6'd4: begin
@@ -173,9 +177,6 @@ module DTW_CTRL(
                     o_sel0[8:6]<=3'd6;
                     o_sel1[8:6]<=3'd3;
                     o_sel2[8:6]<=3'd6;
-                    o_tindex<=5'd3;
-                    o_rindex<=5'd3;
-                    R<=R_buf[59:30];
                 end
 
                 6'd5: begin
@@ -207,9 +208,6 @@ module DTW_CTRL(
                     o_sel0[8:6]<=3'd3;
                     o_sel1[8:6]<=3'd3;
                     o_sel2[8:6]<=3'd6;
-                    o_tindex<=5'd4;
-                    o_rindex<=5'd4;
-                    R<=R_buf[89:60];
                 end
 
                 6'd7: begin
@@ -233,9 +231,6 @@ module DTW_CTRL(
                     o_sel0[5:3]<=3'd6;
                     o_sel1[5:3]<=3'd3;
                     o_sel2[5:3]<=3'd6;
-                    o_tindex<=5'd5;
-                    o_rindex<=5'd5;
-                    R<=R_buf[89:60];
                 end
 
                 6'd8: begin
@@ -277,9 +272,6 @@ module DTW_CTRL(
                     o_sel0[5:3]<=3'd4;
                     o_sel1[5:3]<=3'd3;
                     o_sel2[5:3]<=3'd6;
-                    o_tindex<=5'd6;
-                    o_rindex<=5'd6;
-                    R<=R_buf[119:90];
                 end
 
                 6'd10: begin
@@ -321,9 +313,6 @@ module DTW_CTRL(
                     o_sel0[5:3]<=3'd4;
                     o_sel1[5:3]<=3'd3;
                     o_sel2[5:3]<=3'd6;
-                    o_tindex<=5'd7;
-                    o_rindex<=5'd7;
-                    R<=R_buf[149:120];
                 end
 
                 6'd12: begin
@@ -352,9 +341,6 @@ module DTW_CTRL(
                     o_sel0[5:3]<=3'd6;
                     o_sel1[5:3]<=3'd4;
                     o_sel2[5:3]<=3'd6;
-                    o_tindex<=5'd8;
-                    o_rindex<=5'd8;
-                    R<=R_buf[149:120];
                 end
 
                 6'd13: begin
@@ -406,9 +392,6 @@ module DTW_CTRL(
                     o_sel0[5:3]<=3'd4;
                     o_sel1[5:3]<=3'd4;
                     o_sel2[5:3]<=3'd6;
-                    o_tindex<=5'd9;
-                    o_rindex<=5'd9;
-                    R<=R_buf[179:150];
                 end
 
                 6'd15: begin
@@ -442,9 +425,6 @@ module DTW_CTRL(
                     o_sel0[2:0]<=3'd6;
                     o_sel1[2:0]<=3'd4;
                     o_sel2[2:0]<=3'd6;
-                    o_tindex<=5'd10;
-                    o_rindex<=5'd10;
-                    R<=R_buf[179:150];
                 end
 
                 6'd16: begin
@@ -506,9 +486,6 @@ module DTW_CTRL(
                     o_sel0[2:0]<=3'd5;
                     o_sel1[2:0]<=3'd4;
                     o_sel2[2:0]<=3'd6;
-                    o_tindex<=5'd11;
-                    o_rindex<=5'd11;
-                    R<=R_buf[209:180];
                 end
 
                 6'd18: begin
@@ -570,9 +547,6 @@ module DTW_CTRL(
                     o_sel0[2:0]<=3'd5;
                     o_sel1[2:0]<=3'd4;
                     o_sel2[2:0]<=3'd6;
-                    o_tindex<=5'd12;
-                    o_rindex<=5'd12;
-                    R<=R_buf[239:210];
                 end
 
                 6'd20: begin
@@ -634,9 +608,6 @@ module DTW_CTRL(
                     o_sel0[2:0]<=3'd5;
                     o_sel1[2:0]<=3'd4;
                     o_sel2[2:0]<=3'd6;
-                    o_tindex<=5'd13;
-                    o_rindex<=5'd13;
-                    R<=R_buf[269:240];
                 end
 
                 6'd22: begin
@@ -698,9 +669,6 @@ module DTW_CTRL(
                     o_sel0[2:0]<=3'd5;
                     o_sel1[2:0]<=3'd4;
                     o_sel2[2:0]<=3'd6;
-                    o_tindex<=5'd14;
-                    o_rindex<=5'd14;
-                    R<=R_buf[299:270];
                 end
 
                 6'd24: begin
@@ -780,9 +748,6 @@ module DTW_CTRL(
                     o_sel0[5:3]<=3'd4;
                     o_sel1[5:3]<=3'd4;
                     o_sel2[5:3]<=3'd6;
-                    o_tindex<=5'd15;
-                    o_rindex<=5'd15;
-                    R<=R_buf[359:330];
                 end
 
                 6'd27: begin
@@ -847,9 +812,6 @@ module DTW_CTRL(
                     o_sel0[5:3]<=3'd4;
                     o_sel1[5:3]<=3'd3;
                     o_sel2[5:3]<=3'd6;
-                    o_tindex<=5'd16;
-                    o_rindex<=5'd16;
-                    R<=R_buf[419:390];
                 end
 
                 6'd30: begin
@@ -891,9 +853,6 @@ module DTW_CTRL(
                     o_sel0[5:3]<=3'd4;
                     o_sel1[5:3]<=3'd3;
                     o_sel2[5:3]<=3'd6;
-                    o_tindex<=5'd17;
-                    o_rindex<=5'd17;
-                    R<=R_buf[449:420];
                 end
 
                 6'd32: begin
@@ -943,9 +902,6 @@ module DTW_CTRL(
                     o_sel0[8:6]<=3'd3;
                     o_sel1[8:6]<=3'd3;
                     o_sel2[8:6]<=3'd6;
-                    o_tindex<=5'd18;
-                    o_rindex<=5'd18;
-                    R<=R_buf[509:480];
                 end
 
                 6'd35: begin
@@ -980,9 +936,6 @@ module DTW_CTRL(
                     o_sel0[8:6]<=3'd3;
                     o_sel1[8:6]<=3'd2;
                     o_sel2[8:6]<=3'd6;
-                    o_tindex<=5'd19;
-                    o_rindex<=5'd19;
-                    R<=R_buf[569:540];
                 end
 
                 6'd38: begin
@@ -992,13 +945,200 @@ module DTW_CTRL(
                     o_sel1[11:9]<=3'd2;
                     o_sel2[11:9]<=3'd3;
                 end
-
-                6'd40: // 第40cycle完成计算任务，cycle给o_bt_start信号，令其开始进行回溯任务
-                begin
-                    o_bt_start<=1;
-                end	  
             endcase
         end 
     end
+
+    always @ (*) begin
+        R = 30'd0;
+
+        case (count)
+            6'd1: R = R_buf[29:0];
+            6'd2: R = R_buf[29:0];
+            6'd4: R = R_buf[59:30];
+            6'd5: R = R_buf[59:30];
+            6'd7: R = R_buf[89:60];
+            6'd8: R = R_buf[89:60];
+            6'd10: R = R_buf[119:90];
+            6'd12: R = R_buf[149:120];
+            6'd13: R = R_buf[149:120];
+            6'd15: R = R_buf[179:150];
+            6'd16: R = R_buf[179:150];
+            6'd18: R = R_buf[209:180];
+            6'd20: R = R_buf[239:210];
+            6'd22: R = R_buf[269:240];
+            6'd24: R = R_buf[299:270];
+            6'd27: R = R_buf[359:330];
+            6'd30: R = R_buf[419:390];
+            6'd32: R = R_buf[449:420];
+            6'd35: R = R_buf[509:480];
+            6'd38: R = R_buf[569:540];
+        endcase
+    end
+
+    always @ (*) begin
+        tindex = 5'd0;
+        rindex = 5'd0;
+
+        case (count)
+            6'd0: begin
+                tindex<=5'd0;
+                rindex<=5'd0;
+            end
+
+            6'd1: begin
+                tindex<=5'd1;
+                rindex<=5'd1;
+            end
+
+            6'd2: begin
+            end
+
+            6'd3: begin
+                tindex<=5'd2;
+                rindex<=5'd2;
+            end
+
+            6'd4: begin
+                tindex<=5'd3;
+                rindex<=5'd3;
+            end
+
+            6'd5: begin
+            end
+
+            6'd6: begin
+                tindex<=5'd4;
+                rindex<=5'd4;
+            end
+
+            6'd7: begin
+                tindex<=5'd5;
+                rindex<=5'd5;
+            end
+
+            6'd8: begin
+            end
+
+            6'd9: begin
+                tindex<=5'd6;
+                rindex<=5'd6;
+            end
+
+            6'd10: begin
+            end
+
+            6'd11: begin
+                tindex<=5'd7;
+                rindex<=5'd7;
+            end
+
+            6'd12: begin
+                tindex<=5'd8;
+                rindex<=5'd8;
+            end
+
+            6'd13: begin
+            end
+
+            6'd14: begin
+                tindex<=5'd9;
+                rindex<=5'd9;
+            end
+
+            6'd15: begin
+                tindex<=5'd10;
+                rindex<=5'd10;
+            end
+
+            6'd16: begin
+            end
+
+            6'd17: begin
+                tindex<=5'd11;
+                rindex<=5'd11;
+            end
+
+            6'd18: begin
+            end
+
+            6'd19: begin
+                tindex<=5'd12;
+                rindex<=5'd12;
+            end
+
+            6'd20: begin
+            end
+
+            6'd21: begin
+                tindex<=5'd13;
+                rindex<=5'd13;
+            end
+
+            6'd22: begin
+            end
+
+            6'd23: begin
+                tindex<=5'd14;
+                rindex<=5'd14;
+            end
+
+            6'd24: begin
+            end
+
+            6'd25: begin
+            end
+
+            6'd26: begin
+                tindex<=5'd15;
+                rindex<=5'd15;
+            end
+
+            6'd27: begin
+            end
+
+            6'd28: begin
+            end
+
+            6'd29: begin
+                tindex<=5'd16;
+                rindex<=5'd16;
+            end
+
+            6'd30: begin
+            end
+
+            6'd31: begin
+                tindex<=5'd17;
+                rindex<=5'd17;
+            end
+
+            6'd32: begin
+            end
+
+            6'd33: begin
+            end
+
+            6'd34: begin
+                tindex<=5'd18;
+                rindex<=5'd18;
+            end
+
+            6'd35: begin
+            end
+
+            6'd36: begin
+            end
+
+            6'd37: begin
+                tindex<=5'd19;
+                rindex<=5'd19;
+            end
+
+            6'd38: begin
+            end
+        endcase
+    end
+
 
 endmodule

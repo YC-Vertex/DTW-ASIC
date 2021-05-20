@@ -17,9 +17,9 @@ module SystArr(
     input   wire    [95:0]  D1,
     input   wire    [95:0]  D2,
 
-    output  wire    [95:0]  D,
     output  wire    [29:0]  o_tindex,
     output  wire    [29:0]  o_rindex,
+    output  wire    [95:0]  D,
     output  wire    [11:0]  o_path
 );
 
@@ -63,8 +63,8 @@ module SystArr(
             assign _D2 = D2[div16beg : div16end];
 
             // PE输入：序列
-            wire [15:0] _T_prev;
-            wire [15:0] _R_prev;
+            wire [29:0] _T_prev;
+            wire [29:0] _R_prev;
             wire [4:0] _ti_prev;
             wire [4:0] _ri_prev;
             wire [1:0] _tsrc;

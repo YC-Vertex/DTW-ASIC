@@ -54,7 +54,7 @@ def traceback(DP, TB):
             i = i - 1
         else:
             j = j - 1
-    align.reverse()
+    # align.reverse()
     return align
 
 # 生成输出文件
@@ -62,7 +62,7 @@ def genOutput(align, fout):
     for item in align:
         data = (item[0] << 24) | (item[1] << 16) | item[2]
         fout.write(f'{data:08x} ')
-    fout.write('\n')
+    fout.write('ffffffff\n')
     fout.flush()
 
 if __name__ == '__main__':
@@ -100,6 +100,9 @@ if __name__ == '__main__':
         # source sequence
         d = int(line, 16)
         src.append([(d>>20) & 0x3ff, (d>>10) & 0x3ff, d & 0x3ff])
+        for i in range(3):
+            if src[-1][i] >= 512:
+                src[-1][i] -= 1024
     
     lines = fqry.readlines()
     for line in lines:
@@ -115,6 +118,9 @@ if __name__ == '__main__':
         for d in data:
             d = int(d, 16)
             qry.append([(d>>20) & 0x3ff, (d>>10) & 0x3ff, d & 0x3ff])
+            for i in range(3):
+                if qry[-1][i] >= 512:
+                    qry[-1][i] -= 1024
 
         # run DTW algorithm
         DP, TB = DTW_Itakura(src, qry, 2.5)
