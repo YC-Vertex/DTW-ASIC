@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 `define PERIOD 20
 
-`include "top.v"
+`include "TOP.v"
 
 module Memory(
     input   wire    i_clk,

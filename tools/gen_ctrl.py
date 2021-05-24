@@ -130,11 +130,9 @@ def Gen_CTRL(IP, IP_cycle, IP_pe):
         for k,v in Dict.items():
             if v == None:
                 continue
-            f.write(f'    {k}<={v};\n')
+            f.write(f'    {k} = {v};\n')
             f.flush()
         f.write('end\n\n')
-
-    
 
     f.close()
 

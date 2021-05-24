@@ -1,6 +1,6 @@
-`include "src/DTW_CTRL.v"
-`include "src/DTW_DC.v"
-`include "src/DTW_BT.v"
+`include "DTW_CTRL.v"
+`include "DTW_DC.v"
+`include "DTW_BT.v"
 
 module TOP(
     input   wire    clk_i,

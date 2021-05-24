@@ -8,9 +8,18 @@ def Gen_ScoreArr(IP, IP_cycle, IP_pe):
     for i in reversed(range(20)):
         for j in reversed(range(20)):
             if IP[i,j]:
+                oena = []
+                if IP[i-1,j-1]:
+                    oena.append(f'    .o_ena0(o_ena0_{i}_{j})')
+                if IP[i-1,j]:
+                    oena.append(f'    .o_ena1(o_ena1_{i}_{j})')
+                if IP[i,j-1]:
+                    oena.append(f'    .o_ena2(o_ena2_{i}_{j})')
+                oena = ',\n'.join(oena)
                 # instantiate the array
                 f.write(
                     f'wire i_outena_{i}_{j};\n'
+                    f'wire o_ena0_{i}_{j}, o_ena1_{i}_{j}, o_ena2_{i}_{j};\n'
                     f'ScoreUnit #(.TINDEX(5\'d{i}), .RINDEX(5\'d{j})) uut{i}_{j}(\n'
                     f'    .clk(clk),\n' 
                     f'    .nrst(nrst),\n\n'
@@ -20,9 +29,7 @@ def Gen_ScoreArr(IP, IP_cycle, IP_pe):
                     f'    .i_rindex(i_rindex_{IP_pe[i,j]}),\n\n'
                     f'    .i_outena(i_outena_{i}_{j}),\n'
                     f'    .o_data(o_data),\n'
-                    f'    .o_ena0(o_ena0_{i}_{j}),\n'
-                    f'    .o_ena1(o_ena1_{i}_{j}),\n'
-                    f'    .o_ena2(o_ena2_{i}_{j})\n'
+                    f'{oena}\n'
                     f');\n'
                     f'assign i_outena_{i}_{j} = '
                 )

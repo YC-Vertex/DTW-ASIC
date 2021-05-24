@@ -982,105 +982,105 @@ module DTW_CTRL(
 
         case (count)
             6'd0: begin
-                tindex<=5'd0;
-                rindex<=5'd0;
+                tindex = 5'd0;
+                rindex = 5'd0;
             end
 
             6'd1: begin
-                tindex<=5'd1;
-                rindex<=5'd1;
+                tindex = 5'd1;
+                rindex = 5'd1;
             end
 
             6'd2: begin
             end
 
             6'd3: begin
-                tindex<=5'd2;
-                rindex<=5'd2;
+                tindex = 5'd2;
+                rindex = 5'd2;
             end
 
             6'd4: begin
-                tindex<=5'd3;
-                rindex<=5'd3;
+                tindex = 5'd3;
+                rindex = 5'd3;
             end
 
             6'd5: begin
             end
 
             6'd6: begin
-                tindex<=5'd4;
-                rindex<=5'd4;
+                tindex = 5'd4;
+                rindex = 5'd4;
             end
 
             6'd7: begin
-                tindex<=5'd5;
-                rindex<=5'd5;
+                tindex = 5'd5;
+                rindex = 5'd5;
             end
 
             6'd8: begin
             end
 
             6'd9: begin
-                tindex<=5'd6;
-                rindex<=5'd6;
+                tindex = 5'd6;
+                rindex = 5'd6;
             end
 
             6'd10: begin
             end
 
             6'd11: begin
-                tindex<=5'd7;
-                rindex<=5'd7;
+                tindex = 5'd7;
+                rindex = 5'd7;
             end
 
             6'd12: begin
-                tindex<=5'd8;
-                rindex<=5'd8;
+                tindex = 5'd8;
+                rindex = 5'd8;
             end
 
             6'd13: begin
             end
 
             6'd14: begin
-                tindex<=5'd9;
-                rindex<=5'd9;
+                tindex = 5'd9;
+                rindex = 5'd9;
             end
 
             6'd15: begin
-                tindex<=5'd10;
-                rindex<=5'd10;
+                tindex = 5'd10;
+                rindex = 5'd10;
             end
 
             6'd16: begin
             end
 
             6'd17: begin
-                tindex<=5'd11;
-                rindex<=5'd11;
+                tindex = 5'd11;
+                rindex = 5'd11;
             end
 
             6'd18: begin
             end
 
             6'd19: begin
-                tindex<=5'd12;
-                rindex<=5'd12;
+                tindex = 5'd12;
+                rindex = 5'd12;
             end
 
             6'd20: begin
             end
 
             6'd21: begin
-                tindex<=5'd13;
-                rindex<=5'd13;
+                tindex = 5'd13;
+                rindex = 5'd13;
             end
 
             6'd22: begin
             end
 
             6'd23: begin
-                tindex<=5'd14;
-                rindex<=5'd14;
+                tindex = 5'd14;
+                rindex = 5'd14;
             end
 
             6'd24: begin
@@ -1090,8 +1090,8 @@ module DTW_CTRL(
             end
 
             6'd26: begin
-                tindex<=5'd15;
-                rindex<=5'd15;
+                tindex = 5'd15;
+                rindex = 5'd15;
             end
 
             6'd27: begin
@@ -1101,16 +1101,16 @@ module DTW_CTRL(
             end
 
             6'd29: begin
-                tindex<=5'd16;
-                rindex<=5'd16;
+                tindex = 5'd16;
+                rindex = 5'd16;
             end
 
             6'd30: begin
             end
 
             6'd31: begin
-                tindex<=5'd17;
-                rindex<=5'd17;
+                tindex = 5'd17;
+                rindex = 5'd17;
             end
 
             6'd32: begin
@@ -1120,8 +1120,8 @@ module DTW_CTRL(
             end
 
             6'd34: begin
-                tindex<=5'd18;
-                rindex<=5'd18;
+                tindex = 5'd18;
+                rindex = 5'd18;
             end
 
             6'd35: begin
@@ -1131,14 +1131,13 @@ module DTW_CTRL(
             end
 
             6'd37: begin
-                tindex<=5'd19;
-                rindex<=5'd19;
+                tindex = 5'd19;
+                rindex = 5'd19;
             end
 
             6'd38: begin
             end
         endcase
     end
-
 
 endmodule

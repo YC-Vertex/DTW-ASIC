@@ -53,32 +53,44 @@ module ProcElem(
     end
     // 加载数据（同步）
     always @ (posedge clk or negedge nrst) begin
-        if (~nrst | ~ena) begin
+        if (~nrst) begin
             T <= 30'd0;
             o_tindex <= 5'd31;
         end
         else begin
-            T <= T_rt;
-            if (i_tsrc == 2'd1) begin
-                o_tindex <= i_tindex_prev;
+            if (~ena) begin
+                T <= 30'd0;
+                o_tindex <= 5'd31;
             end
-            else if (i_tsrc == 2'd2) begin
-                o_tindex <= i_tindex_global;
+            else begin
+                T <= T_rt;
+                if (i_tsrc == 2'd1) begin
+                    o_tindex <= i_tindex_prev;
+                end
+                else if (i_tsrc == 2'd2) begin
+                    o_tindex <= i_tindex_global;
+                end
             end
         end
     end
     always @ (posedge clk or negedge nrst) begin
-        if (~nrst | ~ena) begin
+        if (~nrst) begin
             R <= 30'd0;
             o_rindex <= 5'd31;
         end
         else begin
-            R <= R_rt;
-            if (i_rsrc == 2'd1) begin
-                o_rindex <= i_rindex_prev;
+            if (~nrst) begin
+                R <= 30'd0;
+                o_rindex <= 5'd31;
             end
-            else if (i_rsrc == 2'd2) begin
-                o_rindex <= i_rindex_global;
+            else begin
+                R <= R_rt;
+                if (i_rsrc == 2'd1) begin
+                    o_rindex <= i_rindex_prev;
+                end
+                else if (i_rsrc == 2'd2) begin
+                    o_rindex <= i_rindex_global;
+                end
             end
         end
     end

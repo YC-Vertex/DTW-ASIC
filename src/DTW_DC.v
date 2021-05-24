@@ -1,5 +1,4 @@
 `include "SystArr.v"
-`include "Cache.v"
 
 module DTW_DC(
     input   wire    clk,
@@ -39,37 +38,35 @@ module DTW_DC(
     );
 
     always @ (posedge clk or negedge nrst) begin
-        if (~nrst | ~ena) begin
+        if (~nrst) begin
             D_delay <= 96'd0;
         end
         else begin
-            D_delay <= D;
+            if (~ena)
+                D_delay <= 96'd0;
+            else
+                D_delay <= D;
         end
     end
 
     generate
         genvar i;
         for (i = 0; i < 6; i = i + 1) begin: gen_d
-            localparam div16beg = 95 - i * 16;
-            localparam div16end = 80 - i * 16;
-            localparam div3beg = 17 - i * 3;
-            localparam div3end = 15 - i * 3;
-
             // 距离数据
             reg [15:0] _D0;
             reg [15:0] _D1;
             reg [15:0] _D2;
-            assign D0[div16beg:div16end] = _D0;
-            assign D1[div16beg:div16end] = _D1;
-            assign D2[div16beg:div16end] = _D2;
+            assign D0[95-i*16 : 80-i*16] = _D0;
+            assign D1[95-i*16 : 80-i*16] = _D1;
+            assign D2[95-i*16 : 80-i*16] = _D2;
 
             // 选通信号
             wire [2:0] _s0;
             wire [2:0] _s1;
             wire [2:0] _s2;
-            assign _s0 = i_sel0[div3beg:div3end];
-            assign _s1 = i_sel1[div3beg:div3end];
-            assign _s2 = i_sel2[div3beg:div3end];
+            assign _s0 = i_sel0[17-i*3 : 15-i*3];
+            assign _s1 = i_sel1[17-i*3 : 15-i*3];
+            assign _s2 = i_sel2[17-i*3 : 15-i*3];
             
             always @ (*) begin
                 case (_s0)
