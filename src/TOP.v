@@ -1,7 +1,3 @@
-`include "DTW_CTRL.v"
-`include "DTW_DC.v"
-`include "DTW_BT.v"
-
 module TOP(
     input   wire    clk_i,
     input   wire    rst_i,
@@ -21,7 +17,9 @@ module TOP(
     assign T = data[29:0];
 
     wire dc_ena;
+    wire bt_ena;
     wire bt_start;
+    wire bt_end;
 
     wire [4:0] ti_ext2dc;
     wire [11:0] tsrc;
@@ -32,10 +30,14 @@ module TOP(
     wire [17:0] sel1;
     wire [17:0] sel2;
 
-    wire [95:0] D;
     wire [29:0] ti_dc2bt;
     wire [29:0] ri_dc2bt;
+    wire [95:0] D;
     wire [11:0] path;
+
+    wire [31:0] bt_data;
+
+    assign data = bt_ena ? bt_data : 32'bz;
 
     DTW_DC dtw_dc(
         .clk(clk_i), .nrst(rst_i), .ena(dc_ena),
@@ -58,7 +60,7 @@ module TOP(
 
         .i_bt_start(bt_start),
         .o_bt_end(bt_end),
-        .o_data(data)
+        .o_data(bt_data)
     );
 
     DTW_CTRL dtw_ctrl(
@@ -74,7 +76,7 @@ module TOP(
 
         .o_addr(addr_o), .o_WR(WR_o), .o_CS(CS_o),
 
-        .o_bt_start(bt_start), .o_bt_end(bt_end)
+        .o_bt_start(bt_start), .o_bt_end(bt_end), .o_bt_ena(bt_ena)
     );
 
 endmodule

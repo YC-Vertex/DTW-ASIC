@@ -59,8 +59,13 @@ def traceback(DP, TB):
 
 # 生成输出文件
 def genOutput(align, fout):
+    first = True
     for item in align:
-        data = (item[0] << 24) | (item[1] << 16) | item[2]
+        if first:
+            data = (item[0] << 24) | (item[1] << 16) | item[2]
+            first = False
+        else:
+            data = (item[0] << 24) | (item[1] << 16)
         fout.write(f'{data:08x} ')
     fout.write('ffffffff\n')
     fout.flush()

@@ -1,5 +1,3 @@
-`include "SystArr.v"
-
 module DTW_DC(
     input   wire    clk,
     input   wire    nrst,

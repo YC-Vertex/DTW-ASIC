@@ -148,9 +148,9 @@ module ProcElem(
     reg [1:0] path_t;
 
     always @ (*) begin
-        t1 = D0 < D1;
-        t2 = D1 < D2;
-        t3 = D2 < D0;
+        t1 = D0 <= D1;
+        t2 = D1 <= D2;
+        t3 = D2 <= D0;
 
         if (t1 & ~t3) begin // min = D0
             D_min = D0;

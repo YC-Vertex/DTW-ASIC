@@ -1,5 +1,3 @@
-`include "ProcElem.v"
-
 module SystArr(
     input   wire    clk,
     input   wire    nrst,

@@ -2,16 +2,15 @@ module ScoreUnit(
     input   wire    clk,
     input   wire    nrst,
 
-    input   wire    [15:0]  D,
-    input   wire    [1:0]   i_path,
     input   wire    [4:0]   i_tindex,
     input   wire    [4:0]   i_rindex,
+    input   wire    [1:0]   i_path,
 
     input   wire    i_outena,   // 高有效，控制输出本地数据至SRAM
-    inout   wire    [31:0]  o_data, // 三态门，输出本地数据至SRAM
     output  reg     o_ena0,     // 高有效，控制(i-1,j-1)的输出
     output  reg     o_ena1,     // 高有效，控制(i-1,j)的输出
-    output  reg     o_ena2      // 高有效，控制(i,j-1)的输出
+    output  reg     o_ena2,     // 高有效，控制(i,j-1)的输出
+    output  wire    [9:0]   o_index
 );
 
     parameter TINDEX = 5'd31; // invalid
@@ -22,12 +21,9 @@ module ScoreUnit(
     localparam PATH2 = 2'b01; // (i,j-1)
     localparam PATH_RST = 2'b00;
 
-    reg [15:0] _D; // for debug
-    reg [31:0] data;
     reg [1:0] path; // 记录上一个位置，= p0/p1/p2
 
-    // 写入SRAM
-    assign o_data = i_outena ? data : 32'bz;
+    assign o_index = i_outena ? {TINDEX, RINDEX} : 10'b0;
 
     // 存储计算结果
     always @ (posedge clk or negedge nrst) begin
@@ -36,8 +32,6 @@ module ScoreUnit(
         end
         else begin
             if (i_tindex == TINDEX && i_rindex == RINDEX) begin
-                _D <= D;
-                data <= {3'b0, TINDEX, 3'b0, RINDEX, D};
                 path <= i_path;
             end
         end

@@ -1,5 +1,3 @@
-`include "ScoreArr.v"
-
 module DTW_BT(
     input   wire    clk,
     input   wire    nrst,
@@ -7,25 +5,12 @@ module DTW_BT(
     input   wire    [29:0]  i_tindex,
     input   wire    [29:0]  i_rindex,
     input   wire    [95:0]  D,
-    input   wire    [11:0]   i_path,
+    input   wire    [11:0]  i_path,
 
     input   wire    i_bt_start, // 连接至最后一个单元的i_outena端口
     output  wire    o_bt_end,
     output  wire    [31:0]  o_data // to SRAM
 );
-
-    wire [15:0] D_1;
-    wire [15:0] D_2;
-    wire [15:0] D_3;
-    wire [15:0] D_4;
-    wire [15:0] D_5;
-    wire [15:0] D_6;
-    assign D_1 = D[95:80];
-    assign D_2 = D[79:64];
-    assign D_3 = D[63:48];
-    assign D_4 = D[47:32];
-    assign D_5 = D[31:16];
-    assign D_6 = D[15: 0];
 
     wire [4:0] ti_1;
     wire [4:0] ti_2;
@@ -66,13 +51,23 @@ module DTW_BT(
     assign path_5 = i_path[3:2];
     assign path_6 = i_path[1:0];
 
+    wire [9:0] o_index;
+
     ScoreArr score_arr(
         clk, nrst,
         ti_1, ti_2, ti_3, ti_4, ti_5, ti_6,
         ri_1, ri_2, ri_3, ri_4, ri_5, ri_6,
-        D_1, D_2, D_3, D_4, D_5, D_6,
         path_1, path_2, path_3, path_4, path_5, path_6,
-        i_bt_start, o_bt_end, o_data
+        i_bt_start, o_bt_end, o_index
     );
+
+    reg [15:0] result;
+    always @ (posedge clk) begin
+        if (~i_bt_start)
+            result <= D[63:48];
+    end
+
+    assign o_data = {3'b0, o_index[9:5], 3'b0, o_index[4:0],
+        i_bt_start ? result : 16'b0};
 
 endmodule
