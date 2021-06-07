@@ -1,3 +1,5 @@
+`include "ScoreArr.v"
+
 module DTW_BT(
     input   wire    clk,
     input   wire    nrst,

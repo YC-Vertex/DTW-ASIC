@@ -1,3 +1,5 @@
+`include "ScoreUnit.v"
+
 module ScoreArr (
     input   wire    clk,
     input   wire    nrst,

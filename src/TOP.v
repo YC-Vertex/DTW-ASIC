@@ -1,3 +1,7 @@
+`include "DTW_CTRL.v"
+`include "DTW_DC.v"
+`include "DTW_BT.v"
+
 module TOP(
     input   wire    clk_i,
     input   wire    rst_i,
