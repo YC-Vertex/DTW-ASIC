@@ -8,17 +8,16 @@ module Memory(
     input   wire    i_WR,   // 0 - Read, 1 - Write
     input   wire    i_CS,   // 低有效
     input   wire    [9:0]   i_addr,
-    inout   wire    [31:0]  dbus,
+    input   wire    [31:0]  i_data,
+    output  reg     [31:0]  o_data,
     input   wire    check
 );
 
     reg [31:0] MEM [0:1023];
 
-    reg [31:0] data;
     wire r, w;
     assign r = ~i_CS & ~i_WR;
     assign w = ~i_CS & i_WR;
-    assign dbus = r ? data : 32'bz;
 
     integer ofile;
     integer gold_out;
@@ -33,13 +32,13 @@ module Memory(
 
     always @ (posedge i_clk) begin
         if (r) begin
-            data <= MEM[i_addr];
+            o_data <= MEM[i_addr];
         end
     end
     
     always @ (posedge i_clk) begin
         if (w) begin
-            MEM[i_addr] <= dbus;
+            MEM[i_addr] <= i_data;
         end
     end
 
@@ -72,9 +71,9 @@ module TESTBENCH;
     reg clk, nrst;
     // Memory
     wire [9:0] mem_addr;
-    wire [31:0] mem_data;
+    wire [31:0] mem_data_i;
+    wire [31:0] mem_data_o;
     wire mem_WR, mem_CS;
-    wire [31:0] MEM [0:1023];
     // DTW Processor
     reg [31:0] dtw_in;
     reg dtw_valid;
@@ -86,9 +85,9 @@ module TESTBENCH;
     integer dummy;
 
     TOP dtw(clk, nrst,
-        mem_addr, mem_data, mem_WR, mem_CS,
+        mem_addr, mem_data_o, mem_data_i, dtw_data_ena, mem_WR, mem_CS,
         dtw_in, dtw_valid, dtw_ready);
-    Memory mem(clk, mem_WR, mem_CS, mem_addr, mem_data, check);
+    Memory mem(clk, mem_WR, mem_CS, mem_addr, mem_data_i, mem_data_o, check);
 
     always #(`PERIOD/2) clk = ~clk;
     

@@ -7,7 +7,9 @@ module TOP(
     input   wire    rst_i,
 
     output  wire    [9:0]   addr_o,
-    inout   wire    [31:0]  data,
+    input   wire    [31:0]  data_i,
+	output	wire	[31:0]	data_o,
+	output	wire	data_tri_ena,
     output  wire    WR_o,
     output  wire    CS_o,
 
@@ -18,7 +20,7 @@ module TOP(
 
     wire [29:0] T;
     wire [29:0] R;
-    assign T = data[29:0];
+    assign T = data_i[29:0];
 
     wire dc_ena;
     wire bt_ena;
@@ -41,7 +43,8 @@ module TOP(
 
     wire [31:0] bt_data;
 
-    assign data = bt_ena ? bt_data : 32'bz;
+	assign data_tri_ena = bt_ena;
+	assign data_o = bt_data;
 
     DTW_DC dtw_dc(
         .clk(clk_i), .nrst(rst_i), .ena(dc_ena),
@@ -54,6 +57,7 @@ module TOP(
         .o_tindex(ti_dc2bt), .o_rindex(ri_dc2bt), .D(D), .o_path(path)
     );
 
+    /*
     DTW_BT dtw_bt(
         .clk(clk_i), .nrst(rst_i),
 
@@ -63,6 +67,19 @@ module TOP(
         .i_path(path),
 
         .i_bt_start(bt_start),
+        .o_bt_end(bt_end),
+        .o_data(bt_data)
+    );
+    */
+
+    DTW_BT dtw_bt(
+        .clk(clk_i), .nrst(rst_i),
+
+        .D(D),
+        .i_path(path),
+
+        .i_bt_start(bt_start),
+        .i_bt_ena(bt_ena),
         .o_bt_end(bt_end),
         .o_data(bt_data)
     );
