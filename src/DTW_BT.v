@@ -5,7 +5,6 @@ module DTW_BT(
     input   wire    [95:0]  D,
     input   wire    [11:0]  i_path,
 
-    input   wire    i_bt_start,
     input   wire    i_bt_ena,
     output  wire    o_bt_end,
     output  wire    [31:0]  o_data // to SRAM
@@ -94,6 +93,7 @@ module DTW_BT(
     end
 
     always @ (*) begin
+		path = PATH_RST;
         case (nit)
             6'd0: begin
                 case (npe)
@@ -494,7 +494,15 @@ module DTW_BT(
             result <= D[63:48];
     end
 
+    reg bt_ena;
+    always @ (posedge clk) begin
+        bt_ena <= i_bt_ena;
+    end
+
+    wire bt_start;
+    assign bt_start = i_bt_ena & (~bt_ena);
+
     assign o_data = {3'b0, tindex, 3'b0, rindex,
-        i_bt_start ? result : 16'b0};
+        bt_start ? result : 16'b0};
 
 endmodule

@@ -5,9 +5,11 @@ module DTW_CTRL(
     output  wire    o_ready,
 
     input   wire    [31:0]  Rin,
+    input   wire    [31:0]  Tin,
     output  reg     [29:0]  R,
+    output  reg     [29:0]  T,
 
-    output  reg     o_dc_ena,
+    output  wire    o_dc_ena,
     output  reg     [4:0]   o_tindex,
     output  reg     [4:0]   o_rindex,
     output  reg     [11:0]  o_tsrc,
@@ -20,19 +22,27 @@ module DTW_CTRL(
     output  wire    o_WR,
     output  wire    o_CS,
 
-    output  reg     o_bt_ena,
-    output  reg     o_bt_start,
-    input   wire    o_bt_end
+    output  wire    o_bt_ena,
+    input   wire    i_bt_end
 );
 
     localparam DC_END = 6'd40;
+    localparam S_IDLE = 2'd0;
+    localparam S_DC = 2'd1;
+    localparam S_BT = 2'd2;
 
-    assign o_ready = ~o_dc_ena & ~o_bt_ena;
+    reg [1:0] STATE;
+    reg [1:0] STATE_NXT;
+
+    assign o_ready = (STATE == S_IDLE);
+    assign o_dc_ena = (STATE == S_DC);
+    assign o_bt_ena = (STATE == S_BT);
 
     reg [5:0] count;
 
     reg [4:0] tindex;
     reg [4:0] rindex;
+    reg [4:0] tindex_mem;
     always @ (posedge clk or negedge nrst) begin
         if (~nrst) begin
             o_tindex <= 5'd0;
@@ -46,12 +56,32 @@ module DTW_CTRL(
 
     wire [9:0] addr_dc;
     wire [9:0] addr_bt;
-    assign addr_dc = {5'b0, tindex};
+    assign addr_dc = {5'b0, tindex_mem};
     assign addr_bt = {4'b0, count};
     assign o_addr = o_bt_ena ? addr_bt : addr_dc;
 
     assign o_WR = o_bt_ena;
     assign o_CS = 1'b0;
+
+    // 状态机
+    always @ (posedge clk or negedge nrst) begin
+        if (~nrst) begin
+            STATE <= S_IDLE;
+        end
+        else begin
+            STATE <= STATE_NXT;
+        end
+    end
+    always @ (*) begin
+        if (STATE == S_IDLE && i_valid)
+            STATE_NXT = S_DC;
+        else if (STATE == S_DC && count == DC_END)
+            STATE_NXT = S_BT;
+        else if (STATE == S_BT && i_bt_end)
+            STATE_NXT = S_IDLE;
+        else
+            STATE_NXT = STATE;
+    end
 
     // DC & BT 计数信号
     always @ (posedge clk or negedge nrst) begin
@@ -59,45 +89,12 @@ module DTW_CTRL(
             count <= 6'd0;
         end
         else begin
-            if (o_dc_ena && count == DC_END)
+            if (STATE == S_DC && STATE_NXT == S_BT)
                 count <= 6'd20;
-            else if (o_bt_ena && o_bt_end)
-                count <= 6'd0;
-            else if ((o_dc_ena | i_valid) | o_bt_ena)
+            else if (STATE == S_DC || STATE == S_BT)
                 count <= count + 6'd1;
-        end
-    end
-
-    // DC 使能信号
-    always @ (posedge clk or negedge nrst) begin
-        if (~nrst) begin
-            o_dc_ena <= 1'b0;
-        end
-        else begin
-            if (i_valid & o_ready)
-                o_dc_ena <= 1'b1;
-            else if (count == DC_END)
-                o_dc_ena <= 1'b0;
-        end
-    end
-
-    // BT 使能信号
-    always @ (posedge clk or negedge nrst) begin
-        if (~nrst) begin
-            o_bt_ena <= 1'b0;
-            o_bt_start <= 1'b0;
-        end
-        else begin
-            if (o_dc_ena && count == DC_END) begin
-                o_bt_ena <= 1'b1;
-                o_bt_start <= 1'b1;
-            end
-            else if (o_bt_ena & o_bt_start) begin
-                o_bt_start <= 1'b0;
-            end
-            else if (o_bt_end) begin
-                o_bt_ena <= 1'b0;
-            end
+            else
+                count <= 6'd0;
         end
     end
 
@@ -105,6 +102,11 @@ module DTW_CTRL(
     reg [599:0] R_buf;
     always @ (posedge clk) begin
         R_buf <= {R_buf[569:0], Rin[29:0]};
+    end
+
+    // DC 模板序列暂存
+    always @ (posedge clk) begin
+        T <= Tin[29:0];
     end
 
     // DC 控制信号
@@ -949,195 +951,340 @@ module DTW_CTRL(
         end 
     end
 
-    always @ (*) begin
-        R = 30'd0;
-
-        case (count)
-            6'd1: R = R_buf[29:0];
-            6'd2: R = R_buf[29:0];
-            6'd4: R = R_buf[59:30];
-            6'd5: R = R_buf[59:30];
-            6'd7: R = R_buf[89:60];
-            6'd8: R = R_buf[89:60];
-            6'd10: R = R_buf[119:90];
-            6'd12: R = R_buf[149:120];
-            6'd13: R = R_buf[149:120];
-            6'd15: R = R_buf[179:150];
-            6'd16: R = R_buf[179:150];
-            6'd18: R = R_buf[209:180];
-            6'd20: R = R_buf[239:210];
-            6'd22: R = R_buf[269:240];
-            6'd24: R = R_buf[299:270];
-            6'd27: R = R_buf[359:330];
-            6'd30: R = R_buf[419:390];
-            6'd32: R = R_buf[449:420];
-            6'd35: R = R_buf[509:480];
-            6'd38: R = R_buf[569:540];
-        endcase
+    always @ (posedge clk or negedge nrst) begin
+		if (~nrst) begin
+			R <= 30'd0;
+		end
+		else begin
+			case (count + 1)
+				6'd1: R <= R_buf[29:0];
+				6'd2: R <= R_buf[29:0];
+				6'd4: R <= R_buf[59:30];
+				6'd5: R <= R_buf[59:30];
+				6'd7: R <= R_buf[89:60];
+				6'd8: R <= R_buf[89:60];
+				6'd10: R <= R_buf[119:90];
+				6'd12: R <= R_buf[149:120];
+				6'd13: R <= R_buf[149:120];
+				6'd15: R <= R_buf[179:150];
+				6'd16: R <= R_buf[179:150];
+				6'd18: R <= R_buf[209:180];
+				6'd20: R <= R_buf[239:210];
+				6'd22: R <= R_buf[269:240];
+				6'd24: R <= R_buf[299:270];
+				6'd27: R <= R_buf[359:330];
+				6'd30: R <= R_buf[419:390];
+				6'd32: R <= R_buf[449:420];
+				6'd35: R <= R_buf[509:480];
+				6'd38: R <= R_buf[569:540];
+			endcase
+		end
     end
 
     always @ (*) begin
         tindex = 5'd0;
         rindex = 5'd0;
+        if (STATE == S_DC) begin
+            case (count)
+                6'd0: begin
+                    tindex = 5'd0;
+                    rindex = 5'd0;
+                end
 
-        case (count)
-            6'd0: begin
-                tindex = 5'd0;
-                rindex = 5'd0;
-            end
+                6'd1: begin
+                    tindex = 5'd1;
+                    rindex = 5'd1;
+                end
 
-            6'd1: begin
-                tindex = 5'd1;
-                rindex = 5'd1;
-            end
+                6'd2: begin
+                end
 
-            6'd2: begin
-            end
+                6'd3: begin
+                    tindex = 5'd2;
+                    rindex = 5'd2;
+                end
 
-            6'd3: begin
-                tindex = 5'd2;
-                rindex = 5'd2;
-            end
+                6'd4: begin
+                    tindex = 5'd3;
+                    rindex = 5'd3;
+                end
 
-            6'd4: begin
-                tindex = 5'd3;
-                rindex = 5'd3;
-            end
+                6'd5: begin
+                end
 
-            6'd5: begin
-            end
+                6'd6: begin
+                    tindex = 5'd4;
+                    rindex = 5'd4;
+                end
 
-            6'd6: begin
-                tindex = 5'd4;
-                rindex = 5'd4;
-            end
+                6'd7: begin
+                    tindex = 5'd5;
+                    rindex = 5'd5;
+                end
 
-            6'd7: begin
-                tindex = 5'd5;
-                rindex = 5'd5;
-            end
+                6'd8: begin
+                end
 
-            6'd8: begin
-            end
+                6'd9: begin
+                    tindex = 5'd6;
+                    rindex = 5'd6;
+                end
 
-            6'd9: begin
-                tindex = 5'd6;
-                rindex = 5'd6;
-            end
+                6'd10: begin
+                end
 
-            6'd10: begin
-            end
+                6'd11: begin
+                    tindex = 5'd7;
+                    rindex = 5'd7;
+                end
 
-            6'd11: begin
-                tindex = 5'd7;
-                rindex = 5'd7;
-            end
+                6'd12: begin
+                    tindex = 5'd8;
+                    rindex = 5'd8;
+                end
 
-            6'd12: begin
-                tindex = 5'd8;
-                rindex = 5'd8;
-            end
+                6'd13: begin
+                end
 
-            6'd13: begin
-            end
+                6'd14: begin
+                    tindex = 5'd9;
+                    rindex = 5'd9;
+                end
 
-            6'd14: begin
-                tindex = 5'd9;
-                rindex = 5'd9;
-            end
+                6'd15: begin
+                    tindex = 5'd10;
+                    rindex = 5'd10;
+                end
 
-            6'd15: begin
-                tindex = 5'd10;
-                rindex = 5'd10;
-            end
+                6'd16: begin
+                end
 
-            6'd16: begin
-            end
+                6'd17: begin
+                    tindex = 5'd11;
+                    rindex = 5'd11;
+                end
 
-            6'd17: begin
-                tindex = 5'd11;
-                rindex = 5'd11;
-            end
+                6'd18: begin
+                end
 
-            6'd18: begin
-            end
+                6'd19: begin
+                    tindex = 5'd12;
+                    rindex = 5'd12;
+                end
 
-            6'd19: begin
-                tindex = 5'd12;
-                rindex = 5'd12;
-            end
+                6'd20: begin
+                end
 
-            6'd20: begin
-            end
+                6'd21: begin
+                    tindex = 5'd13;
+                    rindex = 5'd13;
+                end
 
-            6'd21: begin
-                tindex = 5'd13;
-                rindex = 5'd13;
-            end
+                6'd22: begin
+                end
 
-            6'd22: begin
-            end
+                6'd23: begin
+                    tindex = 5'd14;
+                    rindex = 5'd14;
+                end
 
-            6'd23: begin
-                tindex = 5'd14;
-                rindex = 5'd14;
-            end
+                6'd24: begin
+                end
 
-            6'd24: begin
-            end
+                6'd25: begin
+                end
 
-            6'd25: begin
-            end
+                6'd26: begin
+                    tindex = 5'd15;
+                    rindex = 5'd15;
+                end
 
-            6'd26: begin
-                tindex = 5'd15;
-                rindex = 5'd15;
-            end
+                6'd27: begin
+                end
 
-            6'd27: begin
-            end
+                6'd28: begin
+                end
 
-            6'd28: begin
-            end
+                6'd29: begin
+                    tindex = 5'd16;
+                    rindex = 5'd16;
+                end
 
-            6'd29: begin
-                tindex = 5'd16;
-                rindex = 5'd16;
-            end
+                6'd30: begin
+                end
 
-            6'd30: begin
-            end
+                6'd31: begin
+                    tindex = 5'd17;
+                    rindex = 5'd17;
+                end
 
-            6'd31: begin
-                tindex = 5'd17;
-                rindex = 5'd17;
-            end
+                6'd32: begin
+                end
 
-            6'd32: begin
-            end
+                6'd33: begin
+                end
 
-            6'd33: begin
-            end
+                6'd34: begin
+                    tindex = 5'd18;
+                    rindex = 5'd18;
+                end
 
-            6'd34: begin
-                tindex = 5'd18;
-                rindex = 5'd18;
-            end
+                6'd35: begin
+                end
 
-            6'd35: begin
-            end
+                6'd36: begin
+                end
 
-            6'd36: begin
-            end
+                6'd37: begin
+                    tindex = 5'd19;
+                    rindex = 5'd19;
+                end
 
-            6'd37: begin
-                tindex = 5'd19;
-                rindex = 5'd19;
-            end
+                6'd38: begin
+                end
+            endcase
+        end
+    end
 
-            6'd38: begin
-            end
-        endcase
+    always @ (*) begin
+        tindex_mem = 5'd0;
+
+        if (STATE == S_DC) begin
+            case (count + 1)
+                6'd1: begin
+                    tindex_mem = 5'd1;
+                end
+
+                6'd2: begin
+                end
+
+                6'd3: begin
+                    tindex_mem = 5'd2;
+                end
+
+                6'd4: begin
+                    tindex_mem = 5'd3;
+                end
+
+                6'd5: begin
+                end
+
+                6'd6: begin
+                    tindex_mem = 5'd4;
+                end
+
+                6'd7: begin
+                    tindex_mem = 5'd5;
+                end
+
+                6'd8: begin
+                end
+
+                6'd9: begin
+                    tindex_mem = 5'd6;
+                end
+
+                6'd10: begin
+                end
+
+                6'd11: begin
+                    tindex_mem = 5'd7;
+                end
+
+                6'd12: begin
+                    tindex_mem = 5'd8;
+                end
+
+                6'd13: begin
+                end
+
+                6'd14: begin
+                    tindex_mem = 5'd9;
+                end
+
+                6'd15: begin
+                    tindex_mem = 5'd10;
+                end
+
+                6'd16: begin
+                end
+
+                6'd17: begin
+                    tindex_mem = 5'd11;
+                end
+
+                6'd18: begin
+                end
+
+                6'd19: begin
+                    tindex_mem = 5'd12;
+                end
+
+                6'd20: begin
+                end
+
+                6'd21: begin
+                    tindex_mem = 5'd13;
+                end
+
+                6'd22: begin
+                end
+
+                6'd23: begin
+                    tindex_mem = 5'd14;
+                end
+
+                6'd24: begin
+                end
+
+                6'd25: begin
+                end
+
+                6'd26: begin
+                    tindex_mem = 5'd15;
+                end
+
+                6'd27: begin
+                end
+
+                6'd28: begin
+                end
+
+                6'd29: begin
+                    tindex_mem = 5'd16;
+                end
+
+                6'd30: begin
+                end
+
+                6'd31: begin
+                    tindex_mem = 5'd17;
+                end
+
+                6'd32: begin
+                end
+
+                6'd33: begin
+                end
+
+                6'd34: begin
+                    tindex_mem = 5'd18;
+                end
+
+                6'd35: begin
+                end
+
+                6'd36: begin
+                end
+
+                6'd37: begin
+                    tindex_mem = 5'd19;
+                end
+
+                6'd38: begin
+                end
+            endcase
+        end
     end
 
 endmodule

@@ -94,7 +94,7 @@ def Gen_CTRL(IP, IP_cycle, IP_pe):
         for i in range(20):
             for j in range(20):
                 if Arr[i,j]:
-                    # o_rindex & R
+                    # R
                     if i == 0 or IP[i-1,j] == False:
                         f.write(
                             f'6\'d{cycle+1}: '
@@ -107,10 +107,8 @@ def Gen_CTRL(IP, IP_cycle, IP_pe):
 
     f.write('\n-----\n\n\n')
 
-    r_buf_ptr = 0
     for cycle in range(np.max(IP_cycle) + 1):
         Arr, Dict = init_cycle(cycle, IP_cycle, ind_src, ind_sel)
-        r_flag = False
 
         for i in range(20):
             for j in range(20):
@@ -118,13 +116,9 @@ def Gen_CTRL(IP, IP_cycle, IP_pe):
                     # o_tindex
                     if j == 0 or IP[i,j-1] == False:
                         Dict['tindex'] = f'5\'d{i}'
-                    # o_rindex & R
+                    # o_rindex
                     if i == 0 or IP[i-1,j] == False:
                         Dict['rindex'] = f'5\'d{j}'
-                        r_flag = True
-
-        if r_flag == False:
-            r_buf_ptr += 1
 
         f.write(f'6\'d{cycle}: begin\n')
         for k,v in Dict.items():

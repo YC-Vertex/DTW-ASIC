@@ -42,6 +42,7 @@ module ProcElem(
             2'd0: T_rt = T;
             2'd1: T_rt = T_prev;
             2'd2: T_rt = T_global;
+			default: T_rt = 30'b0;
         endcase
     end
     always @ (*) begin
@@ -49,6 +50,7 @@ module ProcElem(
             2'd0: R_rt = R;
             2'd1: R_rt = R_prev;
             2'd2: R_rt = R_global;
+			default: R_rt = ~30'b0;
         endcase
     end
     // 加载数据（同步）

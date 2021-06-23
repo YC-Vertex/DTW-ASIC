@@ -20,11 +20,9 @@ module TOP(
 
     wire [29:0] T;
     wire [29:0] R;
-    assign T = data_i[29:0];
 
     wire dc_ena;
     wire bt_ena;
-    wire bt_start;
     wire bt_end;
 
     wire [4:0] ti_ext2dc;
@@ -57,28 +55,12 @@ module TOP(
         .o_tindex(ti_dc2bt), .o_rindex(ri_dc2bt), .D(D), .o_path(path)
     );
 
-    /*
-    DTW_BT dtw_bt(
-        .clk(clk_i), .nrst(rst_i),
-
-        .i_tindex(ti_dc2bt),
-        .i_rindex(ri_dc2bt),
-        .D(D),
-        .i_path(path),
-
-        .i_bt_start(bt_start),
-        .o_bt_end(bt_end),
-        .o_data(bt_data)
-    );
-    */
-
     DTW_BT dtw_bt(
         .clk(clk_i), .nrst(rst_i),
 
         .D(D),
         .i_path(path),
 
-        .i_bt_start(bt_start),
         .i_bt_ena(bt_ena),
         .o_bt_end(bt_end),
         .o_data(bt_data)
@@ -89,6 +71,7 @@ module TOP(
         .i_valid(valid_i), .o_ready(ready_o),
 
         .Rin(Sin_i), .R(R), 
+        .Tin(data_i), .T(T),
 
         .o_dc_ena(dc_ena),
         .o_tindex(ti_ext2dc), .o_rindex(ri_ext2dc),
@@ -97,7 +80,7 @@ module TOP(
 
         .o_addr(addr_o), .o_WR(WR_o), .o_CS(CS_o),
 
-        .o_bt_start(bt_start), .o_bt_end(bt_end), .o_bt_ena(bt_ena)
+        .i_bt_end(bt_end), .o_bt_ena(bt_ena)
     );
 
 endmodule

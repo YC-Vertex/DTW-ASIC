@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-`define PERIOD 20
+`define PERIOD 10 
 
 `include "TOP.v"
 
@@ -9,7 +9,7 @@ module Memory(
     input   wire    i_CS,   // 低有效
     input   wire    [9:0]   i_addr,
     input   wire    [31:0]  i_data,
-    output  reg     [31:0]  o_data,
+	output	reg		[31:0]	o_data,
     input   wire    check
 );
 
@@ -32,7 +32,7 @@ module Memory(
 
     always @ (posedge i_clk) begin
         if (r) begin
-            o_data <= MEM[i_addr];
+            o_data <= #4 MEM[i_addr];
         end
     end
     
@@ -96,13 +96,13 @@ module TESTBENCH;
     end
 
     initial begin
-        clk = 1'b0;
+        clk = 1'b1;
         nrst = 1'b0;
         dtw_in = 32'd0;
         dtw_valid = 1'b0;
         check = 1'b0;
 
-        #(`PERIOD*9.6) nrst = 1'b1;
+        #(`PERIOD*10+1) nrst = 1'b1;
         // invalid input
         #(`PERIOD*10) dtw_in = $random % 32'hffff_ffff;
         #(`PERIOD*10) dtw_in = $random % 32'hffff_ffff;

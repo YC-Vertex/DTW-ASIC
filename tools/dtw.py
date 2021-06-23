@@ -33,7 +33,15 @@ def DTW_Itakura(src, qry, w):
             cost = dist(src[i-1], qry[j-1])
             prev = [DP[i-1,j-1], DP[i-1,j], DP[i,j-1]]
             DP[i,j] = cost + min(prev)
-            TB[i,j] = np.argmin(prev)
+            t1 = prev[0] <= prev[1]
+            t2 = prev[1] <= prev[2]
+            t3 = prev[2] <= prev[0]
+            if t1 & ~t3:
+                TB[i,j] = 0
+            elif t2 & ~t1:
+                TB[i,j] = 1
+            else:
+                TB[i,j] = 2
 
     return DP[1:,1:], TB[1:,1:]
 
