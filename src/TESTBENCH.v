@@ -108,7 +108,7 @@ module TESTBENCH;
         #(`PERIOD*10) dtw_in = $random % 32'hffff_ffff;
         #(`PERIOD*10) dtw_in = $random % 32'hffff_ffff;
 
-        repeat(10) begin
+        repeat(20) begin
             // send R sequence
             #(`PERIOD*10) dtw_valid = 1'b1;
             dummy = $fscanf(ifile, "%h", dtw_in);

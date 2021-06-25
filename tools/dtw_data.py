@@ -1,6 +1,6 @@
 import numpy as np
 
-N = 10
+N = 20
 
 if __name__ == '__main__':
     np.set_printoptions(linewidth=200)
@@ -16,10 +16,16 @@ if __name__ == '__main__':
 
     with open('../data/in.vec', 'w') as fqry:
         for i in range(N):
+            qry = []
             qry_std = []
-            for j in range(3):
-                qry = src + np.random.randn(20)* 0.5
-                qry_std.append(np.clip(np.int16(qry*1024), -512, 511))
+            
+            t = np.random.uniform(0, np.pi*3.6, 20)
+            t.sort()
+            qry.append(0.5 * np.cos(t))
+            qry.append(qry[0] + np.random.randn(20) * 0.2)
+            qry.append(qry[0] + np.random.randn(20) * 0.2)
+            for q in qry:
+                qry_std.append(np.clip(np.int16(q*1024), -512, 511))
 
             for i in range(20):
                 for j in range(3):
