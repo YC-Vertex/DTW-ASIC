@@ -6,19 +6,15 @@ module DTW_DC(
     input   wire    ena,
 
     input   wire    [29:0]  T,
-    input   wire    [4:0]   i_tindex,
     input   wire    [11:0]  i_tsrc,
 
     input   wire    [29:0]  R,
-    input   wire    [4:0]   i_rindex,
     input   wire    [11:0]  i_rsrc,
 
     input   wire    [17:0]  i_sel0,
     input   wire    [17:0]  i_sel1,
     input   wire    [17:0]  i_sel2,
 
-    output  wire    [29:0]  o_tindex,
-    output  wire    [29:0]  o_rindex,
     output  wire    [95:0]  D,
     output  wire    [11:0]  o_path
 );
@@ -31,10 +27,10 @@ module DTW_DC(
 
     SystArr syst_arr(
         .clk(clk), .nrst(nrst), .ena(ena),
-        .T(T), .i_tindex(i_tindex), .i_tsrc(i_tsrc),
-        .R(R), .i_rindex(i_rindex), .i_rsrc(i_rsrc),
+        .T(T), .i_tsrc(i_tsrc),
+        .R(R), .i_rsrc(i_rsrc),
         .D0(D0), .D1(D1), .D2(D2),
-        .o_tindex(o_tindex), .o_rindex(o_rindex), .D(D), .o_path(o_path)
+        .D(D), .o_path(o_path)
     );
 
     always @ (posedge clk or negedge nrst) begin

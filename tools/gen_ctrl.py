@@ -17,9 +17,6 @@ def init_cycle(cycle, IP_cycle, ind_src, ind_sel):
     for ind in ind_sel[1:]:
         for item in sel:
             Dict[f'{item}{ind}'] = None
-    Dict['tindex'] = None
-    Dict['rindex'] = None
-    Dict['R'] = None
 
     return Arr, Dict
 
@@ -107,26 +104,18 @@ def Gen_CTRL(IP, IP_cycle, IP_pe):
 
     f.write('\n-----\n\n\n')
 
-    for cycle in range(np.max(IP_cycle) + 1):
+    for cycle in range(1, np.max(IP_cycle) + 1):
         Arr, Dict = init_cycle(cycle, IP_cycle, ind_src, ind_sel)
-
         for i in range(20):
             for j in range(20):
                 if Arr[i,j]:
                     # o_tindex
                     if j == 0 or IP[i,j-1] == False:
-                        Dict['tindex'] = f'5\'d{i}'
-                    # o_rindex
-                    if i == 0 or IP[i-1,j] == False:
-                        Dict['rindex'] = f'5\'d{j}'
-
-        f.write(f'6\'d{cycle}: begin\n')
-        for k,v in Dict.items():
-            if v == None:
-                continue
-            f.write(f'    {k} = {v};\n')
-            f.flush()
-        f.write('end\n\n')
+                        f.write(
+                            f'6\'d{cycle-1}: '
+                            f'tindex_mem = 5\'d{i};\n'
+                        )
+                        f.flush()
 
     f.close()
 

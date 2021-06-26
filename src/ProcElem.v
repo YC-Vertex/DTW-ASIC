@@ -7,22 +7,16 @@ module ProcElem(
     input   wire    [15:0]  D1,
     input   wire    [15:0]  D2,
 
-    input   wire    [29:0]  T_prev,
-    input   wire    [29:0]  T_global,
-    input   wire    [4:0]   i_tindex_prev,
-    input   wire    [4:0]   i_tindex_global,
+    input   wire    [29:0]  T_pe,
+    input   wire    [29:0]  T_ext,
     input   wire    [1:0]   i_tsrc,
 
-    input   wire    [29:0]  R_prev,
-    input   wire    [29:0]  R_global,
-    input   wire    [4:0]   i_rindex_prev,
-    input   wire    [4:0]   i_rindex_global,
+    input   wire    [29:0]  R_pe,
+    input   wire    [29:0]  R_ext,
     input   wire    [1:0]   i_rsrc,
 
     output  reg     [29:0]  T,
-    output  reg     [4:0]   o_tindex,
     output  reg     [29:0]  R,
-    output  reg     [4:0]   o_rindex,
     
     output  reg     [15:0]  D,
     output  reg     [1:0]   o_path
@@ -40,59 +34,33 @@ module ProcElem(
     always @ (*) begin
         case (i_tsrc)
             2'd0: T_rt = T;
-            2'd1: T_rt = T_prev;
-            2'd2: T_rt = T_global;
+            2'd1: T_rt = T_pe;
+            2'd2: T_rt = T_ext;
 			default: T_rt = 30'b0;
         endcase
     end
     always @ (*) begin
         case (i_rsrc)
             2'd0: R_rt = R;
-            2'd1: R_rt = R_prev;
-            2'd2: R_rt = R_global;
-			default: R_rt = ~30'b0;
+            2'd1: R_rt = R_pe;
+            2'd2: R_rt = R_ext;
+			default: R_rt = 30'b0;
         endcase
     end
     // 加载数据（同步）
     always @ (posedge clk or negedge nrst) begin
         if (~nrst) begin
             T <= 30'd0;
-            o_tindex <= 5'd31;
-        end
-        else begin
-            if (~ena) begin
-                T <= 30'd0;
-                o_tindex <= 5'd31;
-            end
-            else begin
-                T <= T_rt;
-                if (i_tsrc == 2'd1) begin
-                    o_tindex <= i_tindex_prev;
-                end
-                else if (i_tsrc == 2'd2) begin
-                    o_tindex <= i_tindex_global;
-                end
-            end
-        end
-    end
-    always @ (posedge clk or negedge nrst) begin
-        if (~nrst) begin
             R <= 30'd0;
-            o_rindex <= 5'd31;
         end
         else begin
             if (~nrst) begin
+                T <= 30'd0;
                 R <= 30'd0;
-                o_rindex <= 5'd31;
             end
             else begin
+                T <= T_rt;
                 R <= R_rt;
-                if (i_rsrc == 2'd1) begin
-                    o_rindex <= i_rindex_prev;
-                end
-                else if (i_rsrc == 2'd2) begin
-                    o_rindex <= i_rindex_global;
-                end
             end
         end
     end
@@ -147,7 +115,7 @@ module ProcElem(
     // 最小值部分
     reg [15:0] D_min;
     reg t1, t2, t3; // temp
-    reg [1:0] path_t;
+    reg [1:0] path;
 
     always @ (*) begin
         t1 = D0 <= D1;
@@ -156,15 +124,15 @@ module ProcElem(
 
         if (t1 & ~t3) begin // min = D0
             D_min = D0;
-            path_t = PATH0;
+            path = PATH0;
         end
         else if (t2 & ~t1) begin // min = D1
             D_min = D1;
-            path_t = PATH1;
+            path = PATH1;
         end
         else begin // min = D2
             D_min = D2;
-            path_t = PATH2;
+            path = PATH2;
         end
     end
 
@@ -176,7 +144,7 @@ module ProcElem(
         end
         else begin
             D <= D_abs + D_min;
-            o_path <= path_t;
+            o_path <= path;
         end
     end
 

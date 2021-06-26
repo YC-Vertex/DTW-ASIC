@@ -7,7 +7,8 @@ module DTW_BT(
 
     input   wire    i_bt_ena,
     output  wire    o_bt_end,
-    output  wire    [31:0]  o_data // to SRAM
+
+    output  wire    [31:0]  o_data
 );
 
     localparam PATH0 = 2'b11; // (i-1,j-1)
